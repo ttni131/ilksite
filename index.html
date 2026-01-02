@@ -3,33 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ttni Network | Cyberpunk Market</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>ttni Network | Deep Sea Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600;800&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        /* CYBERPUNK GECE ŞEHRİ TEMASI */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif; }
+        /* DEEP SEA MODERN TEMA */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         
         body { 
-            background: #0d0221 url('https://w0.peakpx.com/wallpaper/124/858/wallpaper-cyberpunk-city-street-night-neon-lights-futuristic-scifi.jpg') no-repeat center center fixed; 
+            /* Okyanus derinliği hissi veren arka plan */
+            background: #000b1a url('https://w0.peakpx.com/wallpaper/535/381/wallpaper-abstract-dark-blue-background-with-shining-light.jpg') no-repeat center center fixed; 
             background-size: cover;
-            color: #fff; 
+            color: #e0f7fa; 
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Arka Plan Karartma ve Neon Overlay */
+        /* Buzlu Cam Katmanı */
         body::before {
             content: "";
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(135deg, rgba(13, 2, 33, 0.8) 0%, rgba(45, 0, 77, 0.4) 100%);
+            background: radial-gradient(circle, rgba(0, 40, 80, 0.4) 0%, rgba(0, 10, 30, 0.8) 100%);
             z-index: -1;
         }
 
-        /* NAVBAR (Neon Şeritli) */
+        /* NAVBAR (Şeffaf Okyanus Barı) */
         nav { 
-            background: rgba(13, 2, 33, 0.9); 
-            backdrop-filter: blur(10px);
+            background: rgba(0, 20, 40, 0.7); 
+            backdrop-filter: blur(15px);
             padding: 15px 10%; 
             display: flex; 
             justify-content: space-between; 
@@ -37,122 +38,118 @@
             position: sticky; 
             top: 0; 
             z-index: 1000;
-            border-bottom: 2px solid #bc00dd;
-            box-shadow: 0 0 20px rgba(188, 0, 221, 0.5);
+            border-bottom: 1px solid rgba(0, 242, 255, 0.2);
         }
-        .nav-links { display: flex; gap: 20px; }
+        .nav-links { display: flex; gap: 30px; }
         .nav-btn { 
-            color: #00f2ff; 
+            color: #b0bec5; 
             text-decoration: none; 
-            font-size: 1rem; 
-            font-weight: 700; 
+            font-size: 0.9rem; 
+            font-weight: 600; 
             cursor: pointer; 
             background: none; 
             border: none;
-            padding: 10px 15px;
-            transition: 0.3s;
+            transition: 0.4s;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
         .nav-btn.active, .nav-btn:hover { 
-            color: #fff; 
-            text-shadow: 0 0 10px #00f2ff, 0 0 20px #00f2ff;
+            color: #00e5ff; 
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.6);
         }
         
         .register-btn { 
-            background: transparent;
-            color: #bc00dd; 
+            background: linear-gradient(135deg, #0091ea, #00e5ff);
+            color: white; 
             padding: 10px 25px; 
-            border: 2px solid #bc00dd;
-            border-radius: 0px; /* Cyberpunk tarzı keskin köşeler */
-            font-weight: 900; 
+            border-radius: 50px; 
+            font-weight: 700; 
+            border: none; 
             cursor: pointer;
-            font-family: 'Orbitron', sans-serif;
-            text-transform: uppercase;
+            box-shadow: 0 5px 15px rgba(0, 145, 234, 0.4);
             transition: 0.3s;
-            box-shadow: inset 0 0 10px rgba(188, 0, 221, 0.3);
         }
         .register-btn:hover {
-            background: #bc00dd;
-            color: white;
-            box-shadow: 0 0 20px #bc00dd;
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 229, 255, 0.6);
         }
 
         /* HEADER */
-        header { text-align: center; padding: 60px 10% 20px; }
+        header { text-align: center; padding: 60px 10% 40px; }
         header h1 { 
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem; 
-            color: #00f2ff;
-            text-shadow: 3px 3px 0px #bc00dd;
-            letter-spacing: 5px;
+            font-size: 3rem; 
+            font-weight: 800; 
+            background: linear-gradient(to bottom, #fff, #81d4fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
         }
 
-        /* KARTLAR (Glassmorphism) */
+        /* KARTLAR (Glassmorphism - Modern) */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .section-header { 
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem; 
+            font-size: 1.4rem; 
+            font-weight: 600; 
             margin: 40px 0 20px; 
-            color: #bc00dd; 
+            color: #81d4fa; 
             text-transform: uppercase;
             display: flex;
             align-items: center;
             gap: 15px;
         }
-        .section-header::after { content: ""; flex: 1; height: 2px; background: linear-gradient(90deg, #bc00dd, transparent); }
+        .section-header::after { content: ""; flex: 1; height: 1px; background: rgba(0, 229, 255, 0.2); }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
         
         .card { 
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(0, 242, 255, 0.2);
-            border-radius: 5px; 
-            padding: 30px; 
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px; 
+            padding: 35px 25px; 
             text-align: center;
-            transition: 0.4s;
-            position: relative;
-            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%); /* Kesik köşe efekti */
+            transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
         .card:hover { 
-            transform: translateY(-10px); 
-            border-color: #00f2ff; 
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
-            background: rgba(0, 242, 255, 0.05);
+            transform: translateY(-15px); 
+            background: rgba(255, 255, 255, 0.07);
+            border-color: #00e5ff;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        .card h3 { font-size: 1.8rem; margin-bottom: 10px; font-family: 'Orbitron', sans-serif; color: #fff; }
-        .card .price { font-size: 1.5rem; color: #00f2ff; font-weight: 900; margin-bottom: 25px; display: block; text-shadow: 0 0 5px #00f2ff; }
+        .card h3 { font-size: 1.6rem; margin-bottom: 12px; color: #fff; }
+        .card .price { font-size: 1.4rem; color: #00e5ff; font-weight: 800; margin-bottom: 25px; display: block; }
         
         .card-btn { 
-            background: #bc00dd; 
-            color: white; 
-            border: none; 
-            padding: 12px; 
-            font-weight: 900; 
+            background: rgba(0, 229, 255, 0.1); 
+            color: #00e5ff; 
+            border: 1px solid #00e5ff; 
+            padding: 14px; 
+            border-radius: 15px;
+            font-weight: 700; 
             cursor: pointer; 
             width: 100%; 
             transition: 0.3s;
-            font-family: 'Orbitron', sans-serif;
-            clip-path: polygon(0 0, 90% 0, 100% 30%, 100% 100%, 10% 100%, 0 70%);
         }
-        .card-btn:hover { background: #00f2ff; color: #000; box-shadow: 0 0 15px #00f2ff; }
+        .card-btn:hover { 
+            background: #00e5ff; 
+            color: #002840; 
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+        }
 
-        /* Arka Plan Yazısı */
+        /* Arka Plan Şeffaf Yazı */
         .bg-text-footer { 
-            text-align: center; font-size: 8vw; font-weight: 900; 
-            color: rgba(188, 0, 221, 0.05); 
-            text-transform: uppercase; pointer-events: none; margin-top: 50px;
-            font-family: 'Orbitron', sans-serif;
+            text-align: center; font-size: 8vw; font-weight: 800; 
+            color: rgba(255, 255, 255, 0.02); 
+            text-transform: uppercase; pointer-events: none; margin: 60px 0;
         }
 
+        /* Sayfa Geçişleri */
         .page { display: none; }
-        .page.active { display: block; animation: glitch 0.3s ease; }
-        @keyframes glitch {
-            0% { transform: skew(5deg); opacity: 0; }
-            50% { transform: skew(-5deg); opacity: 0.5; }
-            100% { transform: skew(0deg); opacity: 1; }
+        .page.active { display: block; animation: waveIn 0.6s ease-out; }
+        @keyframes waveIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
@@ -165,50 +162,50 @@
             <button class="nav-btn" onclick="showPage('robux')">ROBLOX</button>
         </div>
         <div class="auth-buttons">
-            <button class="register-btn">SİSTEME GİRİŞ</button>
+            <button class="register-btn">HESABIM</button>
         </div>
     </nav>
 
     <header>
         <h1>TTNİ NETWORK</h1>
-        <p style="color: #00f2ff; letter-spacing: 5px; font-weight: 700;">GELECEĞİN MARKETİNE HOŞ GELDİN</p>
+        <p style="color: #64b5f6; letter-spacing: 3px; font-weight: 500;">DERİNLİKLERDEKİ GÜCÜ KEŞFET</p>
     </header>
 
     <div class="container">
         <div id="mc" class="page active">
-            <div class="section-header">SİSTEM RANKLARI</div>
+            <div class="section-header">ÜYELİK RANKLARI</div>
             <div class="grid">
-                <div class="card"><h3>VIP</h3><span class="price">25 TL</span><button class="card-btn">YÜKLE</button></div>
-                <div class="card"><h3>MVIP</h3><span class="price">50 TL</span><button class="card-btn">YÜKLE</button></div>
-                <div class="card" style="border-color: #bc00dd;"><h3>HELPER</h3><span class="price" style="color:#bc00dd;">45 TL</span><button class="card-btn" style="background:#fff; color:#000;">BAŞVUR</button></div>
+                <div class="card"><h3>VIP</h3><span class="price">25 TL</span><button class="card-btn">SATIN AL</button></div>
+                <div class="card"><h3>MVIP</h3><span class="price">50 TL</span><button class="card-btn">SATIN AL</button></div>
+                <div class="card" style="border-color: #fff;"><h3>HELPER</h3><span class="price" style="color:#fff;">45 TL</span><button class="card-btn" style="border-color:#fff; color:#fff;">BAŞVURU</button></div>
             </div>
 
-            <div class="section-header">DATA PAKETLERİ (MONEY)</div>
+            <div class="section-header">SUNUCU EKONOMİSİ</div>
             <div class="grid">
-                <div class="card"><h3>50M MONEY</h3><span class="price">40 TL</span><button class="card-btn">YÜKLE</button></div>
-                <div class="card"><h3>100M MONEY</h3><span class="price">60 TL</span><button class="card-btn">YÜKLE</button></div>
-                <div class="card"><h3>1B MONEY</h3><span class="price">150 TL</span><button class="card-btn">YÜKLE</button></div>
+                <div class="card"><h3>50M MONEY</h3><span class="price">40 TL</span><button class="card-btn">SATIN AL</button></div>
+                <div class="card"><h3>100M MONEY</h3><span class="price">60 TL</span><button class="card-btn">SATIN AL</button></div>
+                <div class="card"><h3>1B MONEY</h3><span class="price">150 TL</span><button class="card-btn">SATIN AL</button></div>
             </div>
         </div>
 
         <div id="valo" class="page">
             <div class="section-header">VALORANT VP</div>
             <div class="grid">
-                <div class="card"><h3>500 VP</h3><span class="price">200 TL</span><button class="card-btn">YÜKLE</button></div>
-                <div class="card"><h3>1000 VP</h3><span class="price">500 TL</span><button class="card-btn">YÜKLE</button></div>
+                <div class="card"><h3>500 VP</h3><span class="price">200 TL</span><button class="card-btn">SATIN AL</button></div>
+                <div class="card"><h3>1000 VP</h3><span class="price">500 TL</span><button class="card-btn">SATIN AL</button></div>
             </div>
         </div>
 
         <div id="robux" class="page">
             <div class="section-header">ROBUX</div>
             <div class="grid">
-                <div class="card"><h3>100 ROBUX</h3><span class="price">50 TL</span><button class="card-btn">YÜKLE</button></div>
-                <div class="card"><h3>500 ROBUX</h3><span class="price">250 TL</span><button class="card-btn">YÜKLE</button></div>
+                <div class="card"><h3>100 ROBUX</h3><span class="price">50 TL</span><button class="card-btn">SATIN AL</button></div>
+                <div class="card"><h3>500 ROBUX</h3><span class="price">250 TL</span><button class="card-btn">SATIN AL</button></div>
             </div>
         </div>
     </div>
 
-    <div class="bg-text-footer">CYBER-TTNI</div>
+    <div class="bg-text-footer">OCEAN-TTNI</div>
 
     <script>
         function showPage(id) {
