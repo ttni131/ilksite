@@ -9,7 +9,21 @@
         /* TEMEL STİLLER */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: #f1f2f6; color: #2f3542; overflow-x: hidden; position: relative; }
-        .bg-text { position: fixed; top: 25%; left: 50%; transform: translate(-50%, -50%); font-size: 12vw; font-weight: 900; color: rgba(0, 0, 0, 0.03); z-index: -1; white-space: nowrap; pointer-events: none; }
+        
+        /* ARKA PLAN YAZISI (GÜNCELLENDİ: KIRMIZI VE YENİ METİN) */
+        .bg-text { 
+            position: fixed; 
+            top: 35%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            font-size: 8vw; 
+            font-weight: 900; 
+            color: rgba(255, 0, 0, 0.07); /* Kırmızı renk ve hafif şeffaflık */
+            z-index: -1; 
+            white-space: nowrap; 
+            pointer-events: none; 
+            text-transform: uppercase;
+        }
 
         /* NAVBAR */
         nav { background: #2f3542; padding: 15px 10%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
@@ -55,7 +69,7 @@
 </head>
 <body>
 
-    <div class="bg-text">TTNI NETWORK</div>
+    <div class="bg-text">TTNİNETWORKE HOŞGELDİN</div>
 
     <nav>
         <div class="nav-links">
@@ -171,7 +185,7 @@
         function doRegister() {
             const user = document.getElementById('regUser').value;
             const email = document.getElementById('regEmail').value;
-            if(user.length < 3 || !email.includes("@")) { alert("Lütfen bilgileri doğru girin!"); return; }
+            if(user.length < 3 || !email.includes("@")) { alert("Bilgileri doğru girin!"); return; }
             currentUser = user;
             loginSuccess();
             closeModal('registerModal');
@@ -180,12 +194,11 @@
 
         function doLogin() {
             const email = document.getElementById('logEmail').value;
-            const pass = document.getElementById('logPass').value;
-            if(email.includes("@") && pass.length > 3) {
+            if(email.includes("@")) {
                 currentUser = email.split('@')[0];
                 loginSuccess();
                 closeModal('loginModal');
-            } else { alert("Gmail veya şifre hatalı!"); }
+            } else { alert("Gmail hatalı!"); }
         }
 
         function loginSuccess() {
@@ -193,7 +206,7 @@
             document.getElementById('guestBtns').style.display = 'none';
             document.getElementById('userInfo').style.display = 'block';
             document.getElementById('userInfo').innerText = "Hoş geldin, " + currentUser.toUpperCase();
-            document.getElementById('headerMsg').innerText = "Market aktif! Dilediğin ürünü seçebilirsin.";
+            document.getElementById('headerMsg').innerText = "Market aktif! Ürün seçebilirsiniz.";
         }
 
         function handlePurchase(title) {
