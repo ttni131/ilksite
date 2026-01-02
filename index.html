@@ -10,7 +10,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: #f1f2f6; color: #2f3542; overflow-x: hidden; position: relative; }
         
-        /* ARKA PLAN YAZISI */
+        /* ARKA PLAN YAZISI (KIRMIZI) */
         .bg-text { position: fixed; top: 35%; left: 50%; transform: translate(-50%, -50%); font-size: 8vw; font-weight: 900; color: rgba(255, 0, 0, 0.07); z-index: -1; white-space: nowrap; pointer-events: none; text-transform: uppercase; }
 
         /* NAVBAR */
@@ -42,7 +42,7 @@
         .card { background: #2f3542; border-radius: 20px; padding: 25px; color: white; transition: 0.4s; display: flex; flex-direction: column; justify-content: space-between; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
         .card-btn { background: #eccc68; color: #2f3542; border: none; padding: 12px; border-radius: 25px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px; }
-        .card.vp-card { border-bottom: 5px solid #ff4655; } /* Valorant kırmızısı */
+        .card.vp-card { border-bottom: 5px solid #ff4655; }
 
         /* MODALLAR */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
@@ -50,7 +50,7 @@
         .modal-content h2 { margin-bottom: 20px; font-weight: 900; font-size: 1.5rem; text-align: center; color: #eccc68; }
         .modal-content input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #444; background: #3d4451; color: white; border-radius: 10px; outline: none; }
         .confirm-btn { background: #eccc68; color: #2f3542; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; }
-        .close-x { position: absolute; top: 15px; right: 20px; cursor: pointer; color: #eccc68; }
+        .close-x { position: absolute; top: 15px; right: 20px; cursor: pointer; color: #eccc68; font-weight: bold; }
 
         /* EKİP KUTUSU */
         .team-box { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid #eccc68; }
@@ -62,8 +62,8 @@
 
     <nav>
         <div class="nav-links">
-            <button class="nav-btn active" onclick="showPage('minecraftPage')">MINECRAFT</button>
-            <button class="nav-btn" onclick="showPage('valorantPage')">VALORANT VP</button>
+            <button class="nav-btn active" id="btnMc" onclick="showPage('minecraftPage')">MINECRAFT</button>
+            <button class="nav-btn" id="btnValo" onclick="showPage('valorantPage')">VALORANT VP</button>
             <button class="nav-btn" onclick="openModal('teamModal')">EKİBİMİZ</button>
         </div>
         
@@ -78,7 +78,7 @@
 
     <header>
         <h1>ttni <span>Network</span></h1>
-        <p id="headerMsg">Hoş geldiniz! Alışveriş için lütfen giriş yapın.</p>
+        <p id="headerMsg">TTNİ Network dünyasına hoş geldiniz!</p>
     </header>
 
     <div class="container">
@@ -88,7 +88,14 @@
             <div class="grid">
                 <div class="card"><h3>VIP</h3><span style="color:#2ecc71;">25 TL</span><button class="card-btn" onclick="handlePurchase('VIP (25 TL)')">SATIN AL</button></div>
                 <div class="card" style="border: 2px solid #34e7e4;"><h3>MVIP</h3><span style="color:#34e7e4;">50 TL</span><button class="card-btn" onclick="handlePurchase('MVIP (50 TL)')">SATIN AL</button></div>
-                <div class="card"><h3>HELPER</h3><span style="color:#f59f55;">45 TL</span><button class="card-btn" onclick="alert('Discord: curse_prime64')">BAŞVURU</button></div>
+                <div class="card"><h3>HELPER</h3><span style="color:#f59f55;">45 TL</span><button class="card-btn" style="background:#f59f55; color:white;" onclick="alert('Discord: curse_prime64')">BAŞVURU</button></div>
+            </div>
+
+            <div class="section-title">MONEY PAKETLERİ</div>
+            <div class="grid">
+                <div class="card"><h3>50M MONEY</h3><span style="color:#ff9f43;">40 TL</span><button class="card-btn" onclick="handlePurchase('50M Money (40 TL)')">SATIN AL</button></div>
+                <div class="card"><h3>100M MONEY</h3><span style="color:#ff9f43;">60 TL</span><button class="card-btn" onclick="handlePurchase('100M Money (60 TL)')">SATIN AL</button></div>
+                <div class="card"><h3>1B MONEY</h3><span style="color:#ff9f43;">150 TL</span><button class="card-btn" onclick="handlePurchase('1B Money (150 TL)')">SATIN AL</button></div>
             </div>
         </div>
 
@@ -119,7 +126,7 @@
                 <button class="confirm-btn" onclick="sendSmsCode()">KOD GÖNDER</button>
             </div>
             <div id="smsFields" style="display:none;">
-                <p style="text-align:center; color:#eccc68; margin-bottom:10px;">Telefonunuza gelen 6 haneli kodu girin:</p>
+                <p style="text-align:center; color:#eccc68; margin-bottom:10px;">Telefonunuza gelen kodu girin:</p>
                 <input type="text" id="smsCode" placeholder="SMS Kodu" maxlength="6">
                 <button class="confirm-btn" style="background:#2ecc71;" onclick="completeFinal()">ONAYLA VE SATIN AL</button>
             </div>
@@ -134,20 +141,25 @@
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
-            event.target.classList.add('active');
+            if(pageId === 'minecraftPage') document.getElementById('btnMc').classList.add('active');
+            else document.getElementById('btnValo').classList.add('active');
         }
 
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         function doRegister() {
-            currentUser = document.getElementById('regUser').value;
+            const user = document.getElementById('regUser').value;
+            if(user.length < 2) { alert("Lütfen kullanıcı adı girin!"); return; }
+            currentUser = user;
             loginSuccess();
             closeModal('registerModal');
         }
 
         function doLogin() {
-            currentUser = document.getElementById('logEmail').value.split('@')[0];
+            const email = document.getElementById('logEmail').value;
+            if(!email.includes("@")) { alert("Geçerli bir Gmail girin!"); return; }
+            currentUser = email.split('@')[0];
             loginSuccess();
             closeModal('loginModal');
         }
@@ -157,11 +169,10 @@
             document.getElementById('guestBtns').style.display = 'none';
             document.getElementById('userInfo').style.display = 'block';
             document.getElementById('userInfo').innerText = "Hoş geldin, " + currentUser.toUpperCase();
-            document.getElementById('headerMsg').innerText = "Market şu an aktif!";
         }
 
         function handlePurchase(title) {
-            if(!isLoggedIn) { alert("Önce Giriş Yapın!"); openModal('loginModal'); return; }
+            if(!isLoggedIn) { alert("Önce Giriş Yapmalısın!"); openModal('loginModal'); return; }
             document.getElementById('payTitle').innerText = title;
             document.getElementById('cardFields').style.display = 'block';
             document.getElementById('smsFields').style.display = 'none';
@@ -169,15 +180,15 @@
         }
 
         function sendSmsCode() {
-            if(document.getElementById('cNo').value.length < 16) { alert("Kart numarası hatalı!"); return; }
-            alert("Banka kodu gönderildi: 123456 (Simülasyon)");
+            if(document.getElementById('cNo').value.length < 16) { alert("Kart numarası 16 hane olmalıdır!"); return; }
+            alert("Banka SMS Kodu Gönderildi (Deneme Kodu: 123456)");
             document.getElementById('cardFields').style.display = 'none';
             document.getElementById('smsFields').style.display = 'block';
         }
 
         function completeFinal() {
             if(document.getElementById('smsCode').value === "123456") {
-                alert("ÖDEME BAŞARILI!\nSatın alınan: " + document.getElementById('payTitle').innerText + "\nKodunuz Discord üzerinden gönderilecektir.");
+                alert("TEBRİKLER!\n" + document.getElementById('payTitle').innerText + " satın alma başarılı.\nÜrün kodunuz Discord adresinize gönderilecektir.");
                 closeModal('payModal');
             } else { alert("SMS Kodu Hatalı!"); }
         }
