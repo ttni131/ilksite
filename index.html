@@ -3,33 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ttni Network | Market & Üyelik</title>
+    <title>ttni Network | Market & Valorant VP</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         /* TEMEL STİLLER */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: #f1f2f6; color: #2f3542; overflow-x: hidden; position: relative; }
         
-        /* ARKA PLAN YAZISI (GÜNCELLENDİ: KIRMIZI VE YENİ METİN) */
-        .bg-text { 
-            position: fixed; 
-            top: 35%; 
-            left: 50%; 
-            transform: translate(-50%, -50%); 
-            font-size: 8vw; 
-            font-weight: 900; 
-            color: rgba(255, 0, 0, 0.07); /* Kırmızı renk ve hafif şeffaflık */
-            z-index: -1; 
-            white-space: nowrap; 
-            pointer-events: none; 
-            text-transform: uppercase;
-        }
+        /* ARKA PLAN YAZISI */
+        .bg-text { position: fixed; top: 35%; left: 50%; transform: translate(-50%, -50%); font-size: 8vw; font-weight: 900; color: rgba(255, 0, 0, 0.07); z-index: -1; white-space: nowrap; pointer-events: none; text-transform: uppercase; }
 
         /* NAVBAR */
         nav { background: #2f3542; padding: 15px 10%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .nav-links { display: flex; gap: 15px; align-items: center; }
-        .nav-btn { color: white; text-decoration: none; font-size: 0.8rem; font-weight: 700; cursor: pointer; background: none; border: none; transition: 0.3s; }
-        .nav-btn:hover { color: #eccc68; }
+        .nav-btn { color: white; text-decoration: none; font-size: 0.8rem; font-weight: 700; cursor: pointer; background: none; border: none; transition: 0.3s; padding: 5px 10px; border-radius: 5px; }
+        .nav-btn:hover, .nav-btn.active { color: #eccc68; background: rgba(255,255,255,0.05); }
         
         .auth-buttons { display: flex; gap: 10px; align-items: center; }
         .login-btn { border: 1px solid #eccc68; color: #eccc68; padding: 5px 15px; border-radius: 20px; }
@@ -41,30 +29,31 @@
         header { text-align: left; padding: 60px 10% 20px; max-width: 1300px; margin: 0 auto; }
         header h1 { font-size: 3.5rem; font-weight: 900; color: #2f3542; }
         header h1 span { color: #eccc68; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 60vh; }
         .section-title { font-size: 1.3rem; font-weight: 800; margin: 30px 0 15px; color: #2f3542; text-transform: uppercase; border-left: 5px solid #eccc68; padding-left: 15px; }
+
+        /* SAYFA GİZLEME/GÖSTERME */
+        .page { display: none; animation: fadeIn 0.5s; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         /* KARTLAR */
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .card { background: #2f3542; border-radius: 20px; padding: 25px; color: white; transition: 0.4s; display: flex; flex-direction: column; justify-content: space-between; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        .card.featured { border: 2px solid #34e7e4; }
         .card-btn { background: #eccc68; color: #2f3542; border: none; padding: 12px; border-radius: 25px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 10px; }
+        .card.vp-card { border-bottom: 5px solid #ff4655; } /* Valorant kırmızısı */
 
         /* MODALLAR */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
         .modal-content { background: #2f3542; color: white; padding: 30px; border-radius: 20px; width: 380px; position: relative; border: 2px solid #eccc68; }
         .modal-content h2 { margin-bottom: 20px; font-weight: 900; font-size: 1.5rem; text-align: center; color: #eccc68; }
-        .modal-content input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #444; background: #3d4451; color: white; border-radius: 10px; font-size: 0.9rem; outline: none; }
-        .modal-content input:focus { border-color: #eccc68; }
+        .modal-content input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #444; background: #3d4451; color: white; border-radius: 10px; outline: none; }
         .confirm-btn { background: #eccc68; color: #2f3542; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; }
-        .close-x { position: absolute; top: 15px; right: 20px; cursor: pointer; font-weight: bold; color: #eccc68; }
+        .close-x { position: absolute; top: 15px; right: 20px; cursor: pointer; color: #eccc68; }
 
-        /* EKİP KART STİLİ */
+        /* EKİP KUTUSU */
         .team-box { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid #eccc68; }
-        .team-box h3 { font-size: 1.1rem; margin-bottom: 5px; color: #eccc68; }
-        .team-box p { font-size: 0.85rem; opacity: 0.8; margin-bottom: 2px; }
-        .tag { display: inline-block; background: #eccc68; color: #2f3542; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: 900; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -73,7 +62,8 @@
 
     <nav>
         <div class="nav-links">
-            <button class="nav-btn" onclick="alert('IP: ttninetwork313.aternos.me')">IP ADRESİ</button>
+            <button class="nav-btn active" onclick="showPage('minecraftPage')">MINECRAFT</button>
+            <button class="nav-btn" onclick="showPage('valorantPage')">VALORANT VP</button>
             <button class="nav-btn" onclick="openModal('teamModal')">EKİBİMİZ</button>
         </div>
         
@@ -88,90 +78,51 @@
 
     <header>
         <h1>ttni <span>Network</span></h1>
-        <p id="headerMsg">Alışveriş yapmak için lütfen hesabınıza giriş yapın.</p>
+        <p id="headerMsg">Hoş geldiniz! Alışveriş için lütfen giriş yapın.</p>
     </header>
 
     <div class="container">
-        <div class="section-title">SUNUCU RANKLARI</div>
-        <div class="grid">
-            <div class="card">
-                <h3>VIP</h3>
-                <span style="font-size:1.2rem; color:#2ecc71; font-weight:bold;">25 TL</span>
-                <button class="card-btn" onclick="handlePurchase('VIP Paketi (25 TL)')">SATIN AL</button>
-            </div>
-            <div class="card featured">
-                <h3>MVIP</h3>
-                <span style="font-size:1.2rem; color:#34e7e4; font-weight:bold;">50 TL</span>
-                <button class="card-btn" onclick="handlePurchase('MVIP Paketi (50 TL)')">SATIN AL</button>
-            </div>
-            <div class="card">
-                <h3>HELPER</h3>
-                <span style="font-size:1.2rem; color:#f59f55; font-weight:bold;">45 TL</span>
-                <button class="card-btn" style="background:#f59f55; color:white;" onclick="alert('Discord: curse_prime64')">BAŞVURU YAP</button>
+        
+        <div id="minecraftPage" class="page active">
+            <div class="section-title">SUNUCU RANKLARI</div>
+            <div class="grid">
+                <div class="card"><h3>VIP</h3><span style="color:#2ecc71;">25 TL</span><button class="card-btn" onclick="handlePurchase('VIP (25 TL)')">SATIN AL</button></div>
+                <div class="card" style="border: 2px solid #34e7e4;"><h3>MVIP</h3><span style="color:#34e7e4;">50 TL</span><button class="card-btn" onclick="handlePurchase('MVIP (50 TL)')">SATIN AL</button></div>
+                <div class="card"><h3>HELPER</h3><span style="color:#f59f55;">45 TL</span><button class="card-btn" onclick="alert('Discord: curse_prime64')">BAŞVURU</button></div>
             </div>
         </div>
 
-        <div class="section-title">MONEY PAKETLERİ</div>
-        <div class="grid">
-            <div class="card"><h3>50M MONEY</h3><span style="color:#ff9f43;">40 TL</span><button class="card-btn" onclick="handlePurchase('50M Money (40 TL)')">SATIN AL</button></div>
-            <div class="card"><h3>100M MONEY</h3><span style="color:#ff9f43;">60 TL</span><button class="card-btn" onclick="handlePurchase('100M Money (60 TL)')">SATIN AL</button></div>
-            <div class="card"><h3>1B MONEY</h3><span style="color:#ff9f43;">150 TL</span><button class="card-btn" onclick="handlePurchase('1B Money (150 TL)')">SATIN AL</button></div>
-        </div>
-    </div>
-
-    <div id="teamModal" class="modal">
-        <div class="modal-content">
-            <span class="close-x" onclick="closeModal('teamModal')">X</span>
-            <h2>YÖNETİM EKİBİ</h2>
-            <div class="team-box">
-                <h3>TTNI</h3>
-                <p><b>Discord:</b> curse_prime64</p>
-                <p><b>Yaş:</b> 11</p>
-                <span class="tag">KURUCU</span>
+        <div id="valorantPage" class="page">
+            <div class="section-title" style="border-left-color: #ff4655;">VALORANT VP MARKET</div>
+            <div class="grid">
+                <div class="card vp-card"><h3>500 VP</h3><span style="color:#ff4655;">200 TL</span><button class="card-btn" onclick="handlePurchase('500 Valorant VP (200 TL)')">SATIN AL</button></div>
+                <div class="card vp-card"><h3>1000 VP</h3><span style="color:#ff4655;">500 TL</span><button class="card-btn" onclick="handlePurchase('1000 Valorant VP (500 TL)')">SATIN AL</button></div>
+                <div class="card vp-card"><h3>11000 VP</h3><span style="color:#ff4655;">3000 TL</span><button class="card-btn" onclick="handlePurchase('11000 Valorant VP (3000 TL)')">SATIN AL</button></div>
             </div>
-            <div class="team-box" style="border-left-color: #34e7e4;">
-                <h3 style="color: #34e7e4;">KONACORE</h3>
-                <p><b>Discord:</b> jujustukaisen31</p>
-                <p><b>Yaş:</b> 11</p>
-                <span class="tag" style="background: #34e7e4;">GELİŞTİRİCİ</span>
-            </div>
-            <button class="confirm-btn" onclick="closeModal('teamModal')">KAPAT</button>
         </div>
+
     </div>
 
-    <div id="registerModal" class="modal">
-        <div class="modal-content">
-            <span class="close-x" onclick="closeModal('registerModal')">X</span>
-            <h2>Kayıt Ol</h2>
-            <input type="text" id="regUser" placeholder="Kullanıcı Adınız">
-            <input type="email" id="regEmail" placeholder="Gmail Adresiniz">
-            <input type="password" id="regPass" placeholder="Şifreniz">
-            <button class="confirm-btn" onclick="doRegister()">KAYIT OL</button>
-        </div>
-    </div>
+    <div id="teamModal" class="modal"><div class="modal-content"><span class="close-x" onclick="closeModal('teamModal')">X</span><h2>EKİBİMİZ</h2><div class="team-box"><h3>TTNI</h3><p>Discord: curse_prime64 (11 Yaş)</p></div><div class="team-box" style="border-left-color: #34e7e4;"><h3>KONACORE</h3><p>Discord: jujustukaisen31 (11 Yaş)</p></div><button class="confirm-btn" onclick="closeModal('teamModal')">KAPAT</button></div></div>
 
-    <div id="loginModal" class="modal">
-        <div class="modal-content">
-            <span class="close-x" onclick="closeModal('loginModal')">X</span>
-            <h2>Giriş Yap</h2>
-            <input type="email" id="logEmail" placeholder="Gmail Adresiniz">
-            <input type="password" id="logPass" placeholder="Şifreniz">
-            <button class="confirm-btn" onclick="doLogin()">GİRİŞ YAP</button>
-        </div>
-    </div>
+    <div id="loginModal" class="modal"><div class="modal-content"><span class="close-x" onclick="closeModal('loginModal')">X</span><h2>Giriş Yap</h2><input type="email" id="logEmail" placeholder="Gmail"><input type="password" id="logPass" placeholder="Şifre"><button class="confirm-btn" onclick="doLogin()">GİRİŞ</button></div></div>
+
+    <div id="registerModal" class="modal"><div class="modal-content"><span class="close-x" onclick="closeModal('registerModal')">X</span><h2>Kayıt Ol</h2><input type="text" id="regUser" placeholder="Kullanıcı Adı"><input type="email" id="regEmail" placeholder="Gmail"><input type="password" id="regPass" placeholder="Şifre"><button class="confirm-btn" onclick="doRegister()">KAYIT OL</button></div></div>
 
     <div id="payModal" class="modal">
         <div class="modal-content">
             <span class="close-x" onclick="closeModal('payModal')">X</span>
-            <h2 id="payTitle">Ödeme Sistemi</h2>
-            <p style="text-align:center; font-size:0.8rem; margin-bottom:15px; color:#eccc68;">Güvenli Kart Ödemesi</p>
-            <input type="text" id="cNo" placeholder="Kart Numarası (16 Hane)" maxlength="16">
-            <div style="display:flex; gap:10px;">
-                <input type="text" placeholder="AA/YY" maxlength="5">
-                <input type="text" placeholder="CVC" maxlength="3">
+            <h2 id="payTitle">Ödeme</h2>
+            <div id="cardFields">
+                <input type="text" id="cNo" placeholder="Kart Numarası (16 Hane)" maxlength="16">
+                <div style="display:flex; gap:10px;"><input type="text" placeholder="AA/YY" maxlength="5"><input type="text" placeholder="CVC" maxlength="3"></div>
+                <button class="confirm-btn" onclick="sendSmsCode()">KOD GÖNDER</button>
             </div>
-            <input type="text" placeholder="Kart Üzerindeki İsim">
-            <button class="confirm-btn" onclick="validatePay()">ÖDEMEYİ TAMAMLA</button>
+            <div id="smsFields" style="display:none;">
+                <p style="text-align:center; color:#eccc68; margin-bottom:10px;">Telefonunuza gelen 6 haneli kodu girin:</p>
+                <input type="text" id="smsCode" placeholder="SMS Kodu" maxlength="6">
+                <button class="confirm-btn" style="background:#2ecc71;" onclick="completeFinal()">ONAYLA VE SATIN AL</button>
+            </div>
         </div>
     </div>
 
@@ -179,26 +130,26 @@
         let isLoggedIn = false;
         let currentUser = "";
 
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
         function doRegister() {
-            const user = document.getElementById('regUser').value;
-            const email = document.getElementById('regEmail').value;
-            if(user.length < 3 || !email.includes("@")) { alert("Bilgileri doğru girin!"); return; }
-            currentUser = user;
+            currentUser = document.getElementById('regUser').value;
             loginSuccess();
             closeModal('registerModal');
-            alert("Kayıt Başarılı!");
         }
 
         function doLogin() {
-            const email = document.getElementById('logEmail').value;
-            if(email.includes("@")) {
-                currentUser = email.split('@')[0];
-                loginSuccess();
-                closeModal('loginModal');
-            } else { alert("Gmail hatalı!"); }
+            currentUser = document.getElementById('logEmail').value.split('@')[0];
+            loginSuccess();
+            closeModal('loginModal');
         }
 
         function loginSuccess() {
@@ -206,25 +157,29 @@
             document.getElementById('guestBtns').style.display = 'none';
             document.getElementById('userInfo').style.display = 'block';
             document.getElementById('userInfo').innerText = "Hoş geldin, " + currentUser.toUpperCase();
-            document.getElementById('headerMsg').innerText = "Market aktif! Ürün seçebilirsiniz.";
+            document.getElementById('headerMsg').innerText = "Market şu an aktif!";
         }
 
         function handlePurchase(title) {
-            if(!isLoggedIn) {
-                alert("Önce Giriş Yapmalısın!");
-                openModal('loginModal');
-            } else {
-                document.getElementById('payTitle').innerText = title;
-                openModal('payModal');
-            }
+            if(!isLoggedIn) { alert("Önce Giriş Yapın!"); openModal('loginModal'); return; }
+            document.getElementById('payTitle').innerText = title;
+            document.getElementById('cardFields').style.display = 'block';
+            document.getElementById('smsFields').style.display = 'none';
+            openModal('payModal');
         }
 
-        function validatePay() {
-            const card = document.getElementById('cNo').value;
-            if(card.length === 16) {
-                alert("Ödeme Onaylandı! " + document.getElementById('payTitle').innerText + " hesabınıza eklendi.");
+        function sendSmsCode() {
+            if(document.getElementById('cNo').value.length < 16) { alert("Kart numarası hatalı!"); return; }
+            alert("Banka kodu gönderildi: 123456 (Simülasyon)");
+            document.getElementById('cardFields').style.display = 'none';
+            document.getElementById('smsFields').style.display = 'block';
+        }
+
+        function completeFinal() {
+            if(document.getElementById('smsCode').value === "123456") {
+                alert("ÖDEME BAŞARILI!\nSatın alınan: " + document.getElementById('payTitle').innerText + "\nKodunuz Discord üzerinden gönderilecektir.");
                 closeModal('payModal');
-            } else { alert("Lütfen 16 haneli kart numarasını girin!"); }
+            } else { alert("SMS Kodu Hatalı!"); }
         }
     </script>
 </body>
