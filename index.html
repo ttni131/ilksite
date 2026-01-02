@@ -3,132 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTNİ Network | Manager Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>TTNI Network | Neon Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
-        /* --- TEMEL AYARLAR --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        /* BASE STYLES */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         
         body { 
-            background: radial-gradient(circle, #1a4a9e 0%, #0a1a3a 100%); /* Leuscraft Mavi */
+            background: #080a0f; 
             color: white; 
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* CANLI KAR EFEKTİ CANVAS */
+        /* LIVE SNOWFALL BACKGROUND */
         #snowCanvas {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             z-index: 1;
             pointer-events: none;
+            background: radial-gradient(circle at center, #0a1a3a 0%, #050505 100%);
         }
 
-        /* --- NAVBAR --- */
+        /* NAVIGATION */
         nav { 
-            background: rgba(10, 20, 50, 0.9); 
+            background: rgba(0, 0, 0, 0.8); 
             backdrop-filter: blur(15px);
             padding: 15px 10%; 
-            display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; z-index: 1000;
-            border-bottom: 2px solid #b30000;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
         }
-        .nav-logo { font-weight: 900; font-size: 1.4rem; letter-spacing: 2px; }
-        .nav-logo span { color: #b30000; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-btn { color: #888; text-decoration: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; background: none; border: none; transition: 0.3s; position: relative; z-index: 1001; }
+        .nav-btn.active, .nav-btn:hover { color: #00d2ff; text-shadow: 0 0 8px #00d2ff; }
+        
+        .login-btn { color: white; background: none; border: 1px solid #00d2ff; padding: 7px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; position: relative; z-index: 1001; }
+        .login-btn:hover { background: rgba(0, 210, 255, 0.1); box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
 
-        /* --- ANA İÇERİK --- */
-        .container { 
-            max-width: 1100px; 
-            margin: 80px auto; 
-            padding: 0 20px; 
-            position: relative; 
-            z-index: 10; 
-        }
+        /* HEADER */
+        header { text-align: center; padding: 60px 10% 30px; position: relative; z-index: 10; }
+        header h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: 5px; background: linear-gradient(to right, #00d2ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header p { color: #555; font-weight: 600; letter-spacing: 2px; }
 
-        .hero-section { text-align: center; margin-bottom: 60px; }
-        .hero-section h1 { font-size: 4rem; font-weight: 900; letter-spacing: 8px; margin-bottom: 10px; }
-        .hero-section p { color: #81d4fa; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
+        /* CONTAINER & CARDS */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
+        .section-header { font-size: 1.4rem; font-weight: 600; margin: 40px 0 20px; color: #00d2ff; display: flex; align-items: center; gap: 15px; text-transform: uppercase; }
+        .section-header::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to right, rgba(0, 210, 255, 0.5), transparent); }
 
-        /* --- MANAGER KARTI (KOYU BORDO & KALIN) --- */
-        .card-container { display: flex; justify-content: center; }
-        .manager-card {
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(10px);
-            border: 2px solid #b30000; 
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        
+        .card { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 20px; 
-            padding: 50px 40px; 
+            padding: 30px; 
             text-align: center;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 0 40px rgba(179, 0, 0, 0.4);
-            transition: 0.4s ease;
+            transition: 0.4s;
+            backdrop-filter: blur(10px);
         }
-        .manager-card:hover { transform: translateY(-10px); box-shadow: 0 0 60px rgba(179, 0, 0, 0.6); }
+        .card:hover { transform: translateY(-10px); border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); }
 
-        .rank-label { color: #b30000; font-weight: 900; letter-spacing: 4px; font-size: 0.8rem; margin-bottom: 15px; }
-        
-        /* Manager Yazısı &4 Kodu Gibi Koyu Bordo ve Kalın */
-        .manager-card h3 { 
-            font-size: 3.5rem; 
-            font-weight: 900; 
-            color: #b30000; 
-            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
-            margin-bottom: 5px;
-        }
-        .mc-format { color: #666; font-size: 0.9rem; font-weight: 700; margin-bottom: 25px; }
+        /* SPECIAL MANAGER CARD (DARK RED) */
+        .manager-card { border: 2px solid #b30000 !important; background: rgba(179, 0, 0, 0.05) !important; }
+        .manager-card h3 { color: #b30000 !important; font-weight: 900 !important; font-size: 2rem !important; }
+        .manager-card:hover { border-color: #ff0000 !important; box-shadow: 0 0 30px rgba(179, 0, 0, 0.4) !important; }
+        .manager-btn { border-color: #b30000 !important; color: #b30000 !important; }
+        .manager-btn:hover { background: #b30000 !important; color: white !important; }
 
-        .price { font-size: 2.5rem; font-weight: 900; color: #2ecc71; margin-bottom: 30px; display: block; }
-        
-        .buy-btn { 
-            width: 100%; 
-            padding: 20px; 
-            background: #b30000; 
-            color: white; 
-            border: none; 
-            border-radius: 12px; 
-            font-weight: 900; 
-            font-size: 1.1rem;
-            cursor: pointer; 
-            text-transform: uppercase; 
-            transition: 0.3s;
-        }
-        .buy-btn:hover { background: #e60000; transform: scale(1.03); }
+        .card h3 { font-size: 1.6rem; margin-bottom: 10px; color: #fff; }
+        .card .price { font-size: 1.4rem; color: #00ff88; font-weight: 600; margin-bottom: 25px; display: block; }
+        .card-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.3s; }
+        .card-btn:hover { background: #00d2ff; color: #000; border-color: #00d2ff; box-shadow: 0 0 15px #00d2ff; }
 
-        /* --- CHECKOUT MODAL (ÖDEME EKRANI) --- */
-        #checkoutModal {
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.95); 
-            z-index: 2000; 
-            justify-content: center; align-items: center;
+        /* PAYMENT MODAL */
+        #paymentModal {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9); z-index: 2000; justify-content: center; align-items: center;
         }
-        .checkout-box {
-            background: #0a1329; 
-            border: 2px solid #b30000; 
-            padding: 40px; 
-            border-radius: 20px;
-            width: 95%; max-width: 480px; 
-            box-shadow: 0 0 50px rgba(179, 0, 0, 0.5);
+        .modal-box {
+            background: #0d1117; border: 2px solid #00d2ff; padding: 35px; border-radius: 20px;
+            width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
         }
-        .checkout-box h2 { text-align: center; color: #b30000; font-weight: 900; font-size: 2rem; margin-bottom: 25px; }
+        .modal-box h2 { color: #00d2ff; text-align: center; margin-bottom: 20px; font-weight: 900; }
+        .input-field { width: 100%; padding: 12px; margin-bottom: 15px; background: #161b22; border: 1px solid #30363d; color: white; border-radius: 8px; }
+        .pay-btn { width: 100%; padding: 15px; background: #00ff88; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; color: #000; }
 
-        .input-row { display: flex; gap: 15px; }
-        .field { margin-bottom: 20px; }
-        .field label { display: block; margin-bottom: 8px; font-size: 0.7rem; font-weight: 900; color: #81d4fa; text-transform: uppercase; }
-        .field input {
-            width: 100%; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid #222;
-            color: white; border-radius: 8px; font-weight: 700; font-size: 1rem;
-        }
-        .field input:focus { border-color: #b30000; outline: none; background: rgba(255,255,255,0.1); }
+        .bg-text-footer { text-align: center; font-size: 9vw; font-weight: 900; color: rgba(255, 255, 255, 0.01); pointer-events: none; margin-top: 50px; text-transform: uppercase; }
 
-        .pay-submit {
-            width: 100%; padding: 18px; background: #2ecc71; color: #000; border: none;
-            border-radius: 10px; font-weight: 900; font-size: 1rem; cursor: pointer; margin-top: 10px;
-        }
-        .cancel-txt { text-align: center; margin-top: 20px; color: #555; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -136,97 +107,113 @@
     <canvas id="snowCanvas"></canvas>
 
     <nav>
-        <div class="nav-logo">TTNİ <span>NETWORK</span></div>
-        <div style="font-weight: 900; font-size: 0.8rem; opacity: 0.6;">SECURE STORE</div>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="showPage('mc', event)">MINECRAFT</button>
+            <button class="nav-btn" onclick="showPage('valo', event)">VALORANT</button>
+            <button class="nav-btn" onclick="showPage('robux', event)">ROBLOX</button>
+        </div>
+        <div class="auth-buttons">
+            <button class="login-btn">Sign In / Register</button>
+        </div>
     </nav>
 
+    <header>
+        <h1>TTNI NETWORK</h1>
+        <p>Modern Gaming Experience</p>
+    </header>
+
     <div class="container">
-        <div class="hero-section">
-            <h1>LEUSCRAFT</h1>
-            <p>Geleceğin Yetkililerini Arıyoruz</p>
+        <div id="mc" class="page active">
+            <div class="section-header">Server Ranks</div>
+            <div class="grid">
+                <div class="card manager-card">
+                    <h3>MANAGER</h3>
+                    <span class="price" style="color:#b30000;">750.00 $</span>
+                    <button class="card-btn manager-btn" onclick="openPayment('MANAGER', '750.00 $')">BUY NOW</button>
+                </div>
+                <div class="card"><h3>VIP</h3><span class="price">1.00 $</span><button class="card-btn" onclick="openPayment('VIP', '1.00 $')">BUY NOW</button></div>
+                <div class="card"><h3>MVIP</h3><span class="price">2.00 $</span><button class="card-btn" onclick="openPayment('MVIP', '2.00 $')">BUY NOW</button></div>
+            </div>
+
+            <div class="section-header">Economy Packages</div>
+            <div class="grid">
+                <div class="card"><h3>50M MONEY</h3><span class="price">2.00 $</span><button class="card-btn" onclick="openPayment('50M Money', '2.00 $')">BUY NOW</button></div>
+                <div class="card"><h3>1B MONEY</h3><span class="price">5.00 $</span><button class="card-btn" onclick="openPayment('1B Money', '5.00 $')">BUY NOW</button></div>
+            </div>
         </div>
 
-        <div class="card-container">
-            <div class="manager-card">
-                <div class="rank-label">OFFICIAL STAFF</div>
-                <h3>MANAGER</h3>
-                <p class="mc-format">In-game: &4&l[MANAGER]</p>
-                <span class="price">$25.00</span>
-                <button class="buy-btn" onclick="openCheckout()">BUY NOW</button>
+        <div id="valo" class="page">
+            <div class="section-header">Valorant Points</div>
+            <div class="grid">
+                <div class="card"><h3>1000 VP</h3><span class="price">10.00 $</span><button class="card-btn" onclick="openPayment('1000 VP', '10.00 $')">BUY NOW</button></div>
+                <div class="card"><h3>5000 VP</h3><span class="price">45.00 $</span><button class="card-btn" onclick="openPayment('5000 VP', '45.00 $')">BUY NOW</button></div>
+            </div>
+        </div>
+
+        <div id="robux" class="page">
+            <div class="section-header">Robux Packages</div>
+            <div class="grid">
+                <div class="card"><h3>1000 ROBUX</h3><span class="price">12.00 $</span><button class="card-btn" onclick="openPayment('1000 Robux', '12.00 $')">BUY NOW</button></div>
             </div>
         </div>
     </div>
 
-    <div id="checkoutModal">
-        <div class="checkout-box">
-            <h2>CHECKOUT</h2>
-            <form onsubmit="processPayment(event)">
-                <div class="field">
-                    <label>Card Holder Name</label>
-                    <input type="text" placeholder="EMİR ..." required>
-                </div>
-                <div class="field">
-                    <label>Card Number</label>
-                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="16" required>
-                </div>
-                <div class="input-row">
-                    <div class="field" style="flex: 2;">
-                        <label>Expiry Date</label>
-                        <input type="text" placeholder="MM/YY" maxlength="5" required>
-                    </div>
-                    <div class="field" style="flex: 1;">
-                        <label>CVV</label>
-                        <input type="password" placeholder="***" maxlength="3" required>
-                    </div>
-                </div>
-                <button type="submit" class="pay-submit">CONFIRM AND PAY</button>
-                <div class="cancel-txt" onclick="closeCheckout()">BACK TO STORE</div>
-            </form>
+    <div id="paymentModal">
+        <div class="modal-box">
+            <h2 id="productTitle">CHECKOUT</h2>
+            <p id="productPrice" style="text-align: center; margin-bottom: 20px; color: #00ff88; font-weight: bold;"></p>
+            <input type="text" class="input-field" placeholder="Card Holder Name">
+            <input type="text" class="input-field" placeholder="Card Number (16 Digits)">
+            <div style="display:flex; gap:10px;">
+                <input type="text" class="input-field" placeholder="MM/YY">
+                <input type="password" class="input-field" placeholder="CVV">
+            </div>
+            <button class="pay-btn" onclick="completePayment()">COMPLETE PAYMENT</button>
+            <button style="background:none; border:none; color:#555; width:100%; margin-top:10px; cursor:pointer;" onclick="closePayment()">Cancel</button>
         </div>
     </div>
 
+    <div class="bg-text-footer">TTNI NETWORK</div>
+
     <script>
-        /* --- CANLI KAR SİSTEMİ --- */
+        /* SNOWFALL ENGINE */
         const canvas = document.getElementById('snowCanvas');
         const ctx = canvas.getContext('2d');
-        let width, height, particles;
+        let width, height, flakes = [];
 
         function initSnow() {
             width = window.innerWidth;
             height = window.innerHeight;
             canvas.width = width;
             canvas.height = height;
-            particles = [];
-            for (let i = 0; i < 120; i++) {
-                particles.push({
+            flakes = [];
+            for(let i = 0; i < 150; i++) {
+                flakes.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    r: Math.random() * 3 + 1,
-                    d: Math.random() * 1
+                    speed: Math.random() * 2 + 0.5,
+                    radius: Math.random() * 3 + 1,
+                    opacity: Math.random()
                 });
             }
         }
 
         function drawSnow() {
             ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
             ctx.beginPath();
-            for (let p of particles) {
-                ctx.moveTo(p.x, p.y);
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+            for(let flake of flakes) {
+                ctx.moveTo(flake.x, flake.y);
+                ctx.arc(flake.x, flake.y, flake.radius, 0, Math.PI*2);
             }
             ctx.fill();
-            updateSnow();
+            moveSnow();
         }
 
-        function updateSnow() {
-            for (let p of particles) {
-                p.y += Math.cos(p.d) + 1 + p.r / 2;
-                p.x += Math.sin(p.d) * 1;
-                if (p.y > height) {
-                    p.x = Math.random() * width;
-                    p.y = -10;
-                }
+        function moveSnow() {
+            for(let flake of flakes) {
+                flake.y += flake.speed;
+                if(flake.y > height) flake.y = -5;
             }
         }
 
@@ -239,19 +226,27 @@
         initSnow();
         animate();
 
-        /* --- ÖDEME SİSTEMİ FONKSİYONLARI --- */
-        function openCheckout() {
-            document.getElementById('checkoutModal').style.display = 'flex';
+        /* PAGE & MODAL LOGIC */
+        function showPage(id, event) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
         }
 
-        function closeCheckout() {
-            document.getElementById('checkoutModal').style.display = 'none';
+        function openPayment(name, price) {
+            document.getElementById('productTitle').innerText = name;
+            document.getElementById('productPrice').innerText = price;
+            document.getElementById('paymentModal').style.display = 'flex';
         }
 
-        function processPayment(e) {
-            e.preventDefault();
-            alert("Ödeme İşleniyor...\nSunucu yetkiniz otomatik olarak tanımlanacaktır.");
-            closeCheckout();
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        function completePayment() {
+            alert("Payment Successful! Welcome to TTNI Network.");
+            closePayment();
         }
     </script>
 </body>
