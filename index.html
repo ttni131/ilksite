@@ -3,110 +3,179 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ttni131 Sunucu Tanıtımı</title>
+    <title>ttni Network | Market</title>
     <style>
-        /* MINECRAFT TEMALI TASARIM */
+        /* GENEL AYARLAR */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            /* Minecraft dünyasını anımsatan bir arka plan */
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1587573089734-09cb69c0f2b4?q=80&w=1974&auto=format&fit=crop');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            height: 100vh;
+            background: #0f172a; /* Koyu modern arka plan */
+            color: white;
+            padding: 50px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(to right, #fbbf24, #f59e0b); /* Altın rengi */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #94a3b8;
+            font-size: 1.2rem;
+        }
+
+        /* RANK KARTLARI DÜZENİ */
+        .rank-container {
             display: flex;
             justify-content: center;
-            align-items: center;
-            color: white;
+            gap: 25px;
+            flex-wrap: wrap;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .server-card {
-            background: rgba(0, 0, 0, 0.8);
-            border: 3px solid #555;
-            padding: 40px;
-            border-radius: 10px;
-            text-align: center;
-            max-width: 600px;
-            width: 90%;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
-        }
-
-        h1 {
-            color: #55FF55; /* Minecraft yeşili */
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
-
-        .status {
-            display: inline-block;
-            padding: 5px 15px;
-            background: #55FF55;
-            color: black;
+        .rank-card {
+            background: #1e293b;
+            border: 1px solid #334155;
             border-radius: 20px;
+            padding: 30px;
+            width: 300px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rank-card:hover {
+            transform: translateY(-10px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .rank-name {
+            font-size: 2rem;
             font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        /* Ranklara Özel Renkler */
+        .vip { color: #55FF55; }      /* Yeşil */
+        .mvip { color: #55FFFF; }     /* Turkuaz */
+        .helper { color: #FF55FF; }   /* Pembe/Mor */
+
+        .price {
+            font-size: 1.5rem;
             margin-bottom: 20px;
-            font-size: 0.9rem;
+            color: #cbd5e1;
         }
 
-        p {
-            font-size: 1.1rem;
+        .features {
+            list-style: none;
+            text-align: left;
             margin-bottom: 30px;
-            color: #ddd;
+            color: #94a3b8;
         }
 
-        .ip-box {
-            background: #222;
-            padding: 15px;
-            border: 2px dashed #555;
-            font-family: monospace;
-            font-size: 1.2rem;
-            margin-bottom: 25px;
-            cursor: pointer;
+        .features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .features li::before {
+            content: "✔";
+            margin-right: 10px;
+            color: #3b82f6;
+        }
+
+        /* SATIN AL BUTONU */
+        .buy-btn {
+            display: block;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            border-radius: 10px;
+            font-weight: bold;
             transition: 0.3s;
         }
 
-        .ip-box:hover {
-            border-color: #55FF55;
-            background: #2a2a2a;
+        .buy-btn:hover {
+            background: #2563eb;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
         }
 
-        .btn-join {
-            display: inline-block;
-            background: #55FF55;
-            color: black;
-            padding: 15px 30px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1rem;
-            border-bottom: 4px solid #389e38;
-            transition: 0.2s;
-        }
-
-        .btn-join:active {
-            transform: translateY(4px);
-            border-bottom: none;
+        /* Süsleme: Parlama efekti */
+        .rank-card::after {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            z-index: 0;
         }
     </style>
 </head>
 <body>
 
-    <div class="server-card">
-        <div class="status">SUNUCU AKTİF</div>
-        <h1>ttni131 Sunucusu</h1>
-        <p>Aternos üzerinden kurduğumuz bu muhteşem dünyaya hepiniz davetlisiniz! Hayatta kalma mücadelesine hemen katıl.</p>
+    <header>
+        <h1>ttni Network</h1>
+        <p>Sunucumuzdaki deneyiminizi bir üst seviyeye taşıyın!</p>
+    </header>
+
+    <div class="rank-container">
         
-        <div class="ip-box" onclick="alert('IP Adresi Kopyalandı!')">
-            IP: ttni131.aternos.me
+        <div class="rank-card">
+            <div class="rank-name vip">VIP</div>
+            <div class="price">25 TL / Ay</div>
+            <ul class="features">
+                <li>Özel [VIP] Tagı</li>
+                <li>Hızlı Giriş Hakkı</li>
+                <li>3 Adet Home Hakkı</li>
+                <li>Özel VIP Kiti</li>
+            </ul>
+            <a href="#" class="buy-btn">SATIN AL</a>
         </div>
 
-        <a href="https://aternos.org" target="_blank" class="btn-join">ŞİMDİ KATIL</a>
+        <div class="rank-card">
+            <div class="rank-name mvip">MVIP</div>
+            <div class="price">50 TL / Ay</div>
+            <ul class="features">
+                <li>Özel [MVIP] Tagı</li>
+                <li>Uçma Yetkisi (/fly)</li>
+                <li>10 Adet Home Hakkı</li>
+                <li>Gelişmiş MVIP Kiti</li>
+            </ul>
+            <a href="#" class="buy-btn" style="background: #0891b2;">SATIN AL</a>
+        </div>
+
+        <div class="rank-card">
+            <div class="rank-name helper">HELPER</div>
+            <div class="price">Ücretsiz (Başvuru)</div>
+            <ul class="features">
+                <li>Özel [HELPER] Tagı</li>
+                <li>Sohbet Yönetimi</li>
+                <li>Destek Yetkileri</li>
+                <li>Ekibe Katılma Şansı</li>
+            </ul>
+            <a href="#" class="buy-btn" style="background: #a21caf;">BAŞVUR</a>
+        </div>
+
     </div>
 
 </body>
