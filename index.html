@@ -39,18 +39,18 @@
 
         /* MODALLAR */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
-        .modal-content { background: white; color: #2f3542; padding: 30px; border-radius: 20px; width: 350px; position: relative; max-width: 90%; }
-        .modal-content h2 { margin-bottom: 20px; font-weight: 900; font-size: 1.5rem; }
-        .modal-content input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 0.9rem; outline: none; }
+        .modal-content { background: #2f3542; color: white; padding: 30px; border-radius: 20px; width: 380px; position: relative; border: 2px solid #eccc68; }
+        .modal-content h2 { margin-bottom: 20px; font-weight: 900; font-size: 1.5rem; text-align: center; color: #eccc68; }
+        .modal-content input { width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #444; background: #3d4451; color: white; border-radius: 10px; font-size: 0.9rem; outline: none; }
         .modal-content input:focus { border-color: #eccc68; }
-        .confirm-btn { background: #2f3542; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; }
-        .close-x { position: absolute; top: 15px; right: 20px; cursor: pointer; font-weight: bold; color: #a4b0be; }
+        .confirm-btn { background: #eccc68; color: #2f3542; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; }
+        .close-x { position: absolute; top: 15px; right: 20px; cursor: pointer; font-weight: bold; color: #eccc68; }
 
-        /* EKİP MODAL ÖZEL */
-        .team-card { background: #f1f2f6; padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid #eccc68; }
-        .team-card h4 { color: #2f3542; margin-bottom: 5px; }
-        .team-card p { font-size: 0.85rem; color: #57606f; }
-        .team-tag { display: inline-block; background: #2f3542; color: white; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; margin-top: 5px; }
+        /* EKİP KART STİLİ */
+        .team-box { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid #eccc68; }
+        .team-box h3 { font-size: 1.1rem; margin-bottom: 5px; color: #eccc68; }
+        .team-box p { font-size: 0.85rem; opacity: 0.8; margin-bottom: 2px; }
+        .tag { display: inline-block; background: #eccc68; color: #2f3542; padding: 2px 8px; border-radius: 5px; font-size: 0.7rem; font-weight: 900; margin-top: 5px; }
     </style>
 </head>
 <body>
@@ -108,20 +108,20 @@
     <div id="teamModal" class="modal">
         <div class="modal-content">
             <span class="close-x" onclick="closeModal('teamModal')">X</span>
-            <h2>Yönetim Ekibi</h2>
+            <h2>YÖNETİM EKİBİ</h2>
             
-            <div class="team-card">
-                <h4>TTNI (Kurucu)</h4>
-                <p>Discord: curse_prime64</p>
-                <p>Yaş: 11</p>
-                <span class="team-tag">Strateji & Yönetim</span>
+            <div class="team-box">
+                <h3>TTNI</h3>
+                <p><b>Discord:</b> curse_prime64</p>
+                <p><b>Yaş:</b> 11</p>
+                <span class="tag">KURUCU</span>
             </div>
 
-            <div class="team-card">
-                <h4>KONACORE (Geliştirici)</h4>
-                <p>Discord: jujustukaisen31</p>
-                <p>Yaş: 11</p>
-                <span class="team-tag">Tasarım & Teknik</span>
+            <div class="team-box" style="border-left-color: #34e7e4;">
+                <h3 style="color: #34e7e4;">KONACORE</h3>
+                <p><b>Discord:</b> jujustukaisen31</p>
+                <p><b>Yaş:</b> 11</p>
+                <span class="tag" style="background: #34e7e4;">GELİŞTİRİCİ</span>
             </div>
             
             <button class="confirm-btn" onclick="closeModal('teamModal')">KAPAT</button>
@@ -175,4 +175,42 @@
             currentUser = user;
             loginSuccess();
             closeModal('registerModal');
-            alert("Başarıyla kayıt oldunuz!
+            alert("Başarıyla kayıt oldunuz!");
+        }
+
+        function doLogin() {
+            const email = document.getElementById('logEmail').value;
+            if(email.includes("@")) {
+                currentUser = email.split('@')[0];
+                loginSuccess();
+                closeModal('loginModal');
+            } else { alert("Lütfen geçerli bir Gmail girin!"); }
+        }
+
+        function loginSuccess() {
+            isLoggedIn = true;
+            document.getElementById('guestBtns').style.display = 'none';
+            document.getElementById('userInfo').style.display = 'block';
+            document.getElementById('userInfo').innerText = "Hoş geldin, " + currentUser.toUpperCase();
+            document.getElementById('headerMsg').innerText = "Artık marketten dilediğin ürünü satın alabilirsin!";
+        }
+
+        function handlePurchase(title) {
+            if(!isLoggedIn) {
+                alert("DUR! Önce Kayıt Olmalı veya Giriş Yapmalısın!");
+                openModal('registerModal');
+            } else {
+                document.getElementById('payTitle').innerText = title;
+                openModal('payModal');
+            }
+        }
+
+        function validatePay() {
+            if(document.getElementById('cNo').value.length === 16) {
+                alert("Ödeme Alındı! " + document.getElementById('payTitle').innerText + " hesabınıza tanımlandı.");
+                closeModal('payModal');
+            } else { alert("Lütfen 16 haneli kart numarasını girin!"); }
+        }
+    </script>
+</body>
+</html>
