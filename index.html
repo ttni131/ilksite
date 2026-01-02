@@ -3,127 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ttni Network | Market & Ekip</title>
+    <title>ttni Network | Profesyonel Market</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        body { background: #0f172a; color: white; padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
+        /* GENEL AYARLAR */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         
-        /* ÜST MENÜ */
-        nav { margin-bottom: 30px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
-        .nav-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-weight: 600; }
-        .nav-btn:hover { background: #fbbf24; color: black; border-color: #fbbf24; }
+        body { 
+            background-color: #f1f2f6; 
+            color: #2f3542;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ARKA PLAN FONTU (Görseldeki gibi devasa TTNI NETWORK yazısı) */
+        .bg-text {
+            position: fixed;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12vw;
+            font-weight: 900;
+            color: rgba(0, 0, 0, 0.03); /* Çok hafif şeffaf */
+            z-index: -1;
+            white-space: nowrap;
+            letter-spacing: 5px;
+        }
+
+        /* NAVBAR */
+        nav { 
+            background: #2f3542; 
+            padding: 15px 10%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .nav-links { display: flex; gap: 25px; align-items: center; }
+        .nav-btn { color: white; text-decoration: none; font-size: 0.85rem; font-weight: 700; cursor: pointer; background: none; border: none; transition: 0.3s; }
+        .nav-btn:hover { color: #eccc68; }
+        .ip-btn { color: #2ecc71; border: 1px solid #2ecc71; padding: 5px 15px; border-radius: 5px; }
+        .buy-now-btn { background: #eccc68; color: #2f3542; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 900; }
+
+        /* HEADER */
+        header { text-align: left; padding: 100px 10% 50px; max-width: 1300px; margin: 0 auto; }
+        header h1 { font-size: 4.5rem; font-weight: 900; color: #2f3542; line-height: 1; }
+        header h1 span { color: #eccc68; }
+        header p { font-size: 1.2rem; color: #747d8c; margin-top: 15px; font-weight: 600; }
+
+        /* KARTLAR */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .section-title { font-size: 1.4rem; font-weight: 800; margin: 40px 0 30px; color: #2f3542; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 35px; }
+
+        .card { 
+            background: #2f3542; 
+            border-radius: 25px; 
+            padding: 35px; 
+            color: white; 
+            transition: 0.4s ease;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { transform: translateY(-12px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .card::after { content: ""; position: absolute; bottom: 0; left: 0; width: 100%; height: 8px; background: transparent; transition: 0.3s; }
+        .card:hover::after { background: #eccc68; }
+
+        .card h3 { font-size: 2rem; margin-bottom: 5px; }
+        .card .code { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; display: block; }
+        .card .price-tag { font-size: 1.3rem; margin-bottom: 25px; display: block; color: #ced4da; }
         
-        header { text-align: center; margin-bottom: 50px; }
-        header h1 { font-size: 3.5rem; background: linear-gradient(to right, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        .card-btn { 
+            background: #eccc68; 
+            color: #2f3542; 
+            border: none; 
+            padding: 12px; 
+            border-radius: 30px; 
+            font-weight: 900; 
+            cursor: pointer; 
+            width: 100%; 
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+        .card-btn:hover { background: white; transform: scale(1.03); }
 
-        .section-title { margin: 40px 0 20px; font-size: 1.8rem; color: #fbbf24; border-bottom: 2px solid #fbbf24; padding-bottom: 5px; width: 100%; max-width: 1200px; text-align: center; letter-spacing: 2px; }
+        /* RENK STİLLERİ */
+        .vip-c { color: #2ecc71; }
+        .mvip-c { color: #34e7e4; }
+        .helper-c { color: #ff9f43; }
+        .money-c { color: #eccc68; }
 
-        .rank-container { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; max-width: 1200px; margin-bottom: 30px; }
-        .rank-card { background: #1e293b; border: 2px solid #334155; border-radius: 20px; padding: 25px; width: 280px; text-align: center; transition: 0.3s; }
-        .rank-card:hover { transform: translateY(-10px); border-color: #fbbf24; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-
-        .rank-name { font-size: 1.8rem; font-weight: bold; margin-bottom: 10px; }
-        .vip { color: #55FF55; } .mvip { color: #55FFFF; } .money { color: #fbbf24; } .helper { color: #FF55FF; }
-        .price { font-size: 1.4rem; margin-bottom: 20px; color: #cbd5e1; font-weight: bold; }
-        
-        .buy-btn { display: block; background: #fbbf24; color: #000; padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; width: 100%; transition: 0.3s; }
-        .buy-btn:hover { background: #fff; }
-
-        /* MODAL TASARIMI */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(8px); }
-        .modal-content { background: #1e293b; color: white; padding: 40px; border-radius: 30px; width: 450px; text-align: center; border: 2px solid #fbbf24; }
-        
-        .payment-card { background: white; color: black; padding: 30px; border-radius: 20px; width: 400px; text-align: left; }
-        .payment-card h2 { margin-bottom: 15px; font-size: 1.4rem; color: #0f172a; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .payment-card input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 1rem; }
-        .close-btn { background: #ff4444; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; margin-top: 15px; font-weight: bold; width: 100%; }
-
-        .team-box { text-align: left; background: rgba(255,255,255,0.05); padding: 15px; border-radius: 10px; margin-top: 10px; border-left: 5px solid #fbbf24; }
+        /* MODAL */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(10px); }
+        .modal-content { background: white; color: #2f3542; padding: 40px; border-radius: 30px; width: 420px; }
+        .modal-content h2 { margin-bottom: 25px; font-weight: 900; }
+        .modal-content input { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #f1f2f6; border-radius: 12px; font-size: 1rem; outline: none; }
+        .modal-content input:focus { border-color: #eccc68; }
+        .pay-confirm { background: #2f3542; color: white; border: none; padding: 15px; width: 100%; border-radius: 12px; font-weight: 900; cursor: pointer; margin-top: 10px; }
+        .close-modal { background: none; color: #a4b0be; border: none; width: 100%; margin-top: 15px; cursor: pointer; text-decoration: underline; }
     </style>
 </head>
 <body>
 
+    <div class="bg-text">TTNI NETWORK</div>
+
     <nav>
-        <button class="nav-btn" onclick="openModal('ipModal')" style="background:#22c55e">🎮 Sunucu IP</button>
-        <button class="nav-btn" onclick="openModal('teamModal')">👥 Ekibimiz</button>
-        <button class="nav-btn" onclick="openModal('softModal')">💻 Yazılım & İletişim</button>
+        <div class="nav-links">
+            <button class="nav-btn ip-btn" onclick="alert('IP: ttninetwork313.aternos.me')">Sunucu IP</button>
+            <button class="nav-btn" onclick="openModal('teamModal')">Ekibimiz</button>
+            <button class="nav-btn" onclick="openModal('softModal')">Soft & İletişim</button>
+        </div>
+        <a href="#" class="buy-now-btn">BUY NOW</a>
     </nav>
 
     <header>
-        <h1>ttni Network</h1>
+        <h1>ttni <span>Network</span></h1>
         <p>Aternos'un En Karizmatik Sunucusu</p>
     </header>
 
-    <div class="section-title">SUNUCU RANKLARI</div>
-    <div class="rank-container">
-        <div class="rank-card">
-            <div class="rank-name vip">VIP</div>
-            <div class="price">25 TL</div>
-            <button class="buy-btn" onclick="openPayment('VIP - 25 TL')">SATIN AL</button>
-        </div>
-        <div class="rank-card">
-            <div class="rank-name mvip">MVIP</div>
-            <div class="price">50 TL</div>
-            <button class="buy-btn" onclick="openPayment('MVIP - 50 TL')">SATIN AL</button>
-        </div>
-        <div class="rank-card">
-            <div class="rank-name helper">HELPER</div>
-            <div class="price">Ücretsiz</div>
-            <button class="buy-btn" style="background:#a21caf; color:white;" onclick="alert('Discord: curse_prime64 üzerinden başvuru yapın!')">BAŞVURU YAP</button>
-        </div>
-    </div>
-
-    <div class="section-title">OYUN PARASI (BAKİYE)</div>
-    <div class="rank-container">
-        <div class="rank-card">
-            <div class="rank-name money">50M</div>
-            <div class="price">60 TL</div>
-            <button class="buy-btn" onclick="openPayment('50M Bakiye - 60 TL')">SATIN AL</button>
-        </div>
-        <div class="rank-card">
-            <div class="rank-name money">100M</div>
-            <div class="price">100 TL</div>
-            <button class="buy-btn" onclick="openPayment('100M Bakiye - 100 TL')">SATIN AL</button>
-        </div>
-        <div class="rank-card">
-            <div class="rank-name money">1B</div>
-            <div class="price">300 TL</div>
-            <button class="buy-btn" onclick="openPayment('1B Bakiye - 300 TL')">SATIN AL</button>
-        </div>
-    </div>
-
-    <div id="paymentModal" class="modal">
-        <div class="payment-card">
-            <h2 id="payTitle">Ödeme Paneli</h2>
-            <input type="text" id="cardName" placeholder="Kart Üzerindeki İsim">
-            <input type="text" id="cardNo" placeholder="Kart Numarası (16 Hane)">
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="cardSkt" placeholder="AA/YY">
-                <input type="text" id="cardCvc" placeholder="CVC">
+    <div class="container">
+        <div class="section-title">SUNUCU RANKLARI</div>
+        <div class="grid">
+            <div class="card">
+                <h3>VIP</h3>
+                <span class="code vip-c">55FFF55</span>
+                <span class="price-tag">25 TL</span>
+                <button class="card-btn" onclick="openPay('VIP - 25 TL')">SATIN AL</button>
             </div>
-            <button class="buy-btn" style="background:#22c55e; color:white; margin-top:10px;" onclick="validateAndPay()">ÖDEMEYİ TAMAMLA</button>
-            <button class="close-btn" onclick="closeModal('paymentModal')">İPTAL ET</button>
+            <div class="card" style="border: 2px solid #34e7e4;">
+                <h3>MVIP</h3>
+                <span class="code mvip-c">55YPR55</span>
+                <span class="price-tag">50 TL</span>
+                <button class="card-btn" onclick="openPay('MVIP - 50 TL')">SATIN AL</button>
+            </div>
+            <div class="card">
+                <h3>HELPER</h3>
+                <span class="code helper-c">FF54F4</span>
+                <span class="price-tag">60 TL</span>
+                <button class="card-btn" onclick="alert('Discord: curse_prime64 üzerinden başvurun!')">BAŞVUR</button>
+            </div>
+        </div>
+
+        <div class="section-title">OYUNCU PARASI (BAKİYE)</div>
+        <div class="grid">
+            <div class="card">
+                <h3>MONER 50M</h3>
+                <span class="code money-c">60 TL</span>
+                <button class="card-btn" onclick="openPay('50M Bakiye - 60 TL')">SATIN AL</button>
+            </div>
+            <div class="card">
+                <h3>MONER 100M</h3>
+                <span class="code money-c">100 TL</span>
+                <button class="card-btn" onclick="openPay('100M Bakiye - 100 TL')">SATIN AL</button>
+            </div>
+            <div class="card">
+                <h3>MONER 1B</h3>
+                <span class="code money-c">300 TL</span>
+                <button class="card-btn" onclick="openPay('1B Bakiye - 300 TL')">SATIN AL</button>
+            </div>
         </div>
     </div>
 
-    <div id="ipModal" class="modal"><div class="modal-content"><h2>IP ADRESİ</h2><h1 style="color:#55FF55; margin:20px 0;">ttninetwork313.aternos.me</h1><button class="close-btn" onclick="closeModal('ipModal')">Kapat</button></div></div>
-    
+    <div id="payModal" class="modal">
+        <div class="modal-content">
+            <h2 id="payTitle">Ödeme Paneli</h2>
+            <input type="text" id="cNo" placeholder="Kart Numarası (16 Hane)">
+            <div style="display:flex; gap:10px;">
+                <input type="text" placeholder="AA/YY" style="flex:2">
+                <input type="text" placeholder="CVC" style="flex:1">
+            </div>
+            <button class="pay-confirm" onclick="validatePay()">ÖDEMEYİ TAMAMLA</button>
+            <button class="close-modal" onclick="closeModal('payModal')">İşlemi İptal Et</button>
+        </div>
+    </div>
+
     <div id="teamModal" class="modal">
         <div class="modal-content">
-            <h2>ttni Network Ekibi</h2>
-            <div class="team-box"><h3 style="color:#fbbf24">ttni (Kurucu)</h3><p>Yaş: 11 | Discord: curse_prime64</p></div>
-            <div class="team-box"><h3 style="color:#fbbf24">konacore (Yönetici)</h3><p>Yaş: 11 | Discord: jujustukaisen31</p></div>
-            <button class="close-btn" onclick="closeModal('teamModal')">Kapat</button>
+            <h2>Ekibimiz</h2>
+            <p><strong>ttni:</strong> 11 Yaş | Discord: curse_prime64</p>
+            <p style="margin-top:10px;"><strong>jujustukaisen31:</strong> 11 Yaş | Discord: jujustukaisen31</p>
+            <button class="pay-confirm" onclick="closeModal('teamModal')">Kapat</button>
         </div>
     </div>
 
     <div id="softModal" class="modal">
         <div class="modal-content">
-            <h2>Yazılım & İletişim</h2>
-            <p style="margin:20px 0;">Yazılımla ilgili sorularınız için ulaşın:</p>
-            <p>Discord: <strong>curse_prime64</strong></p>
-            <p>Discord: <strong>jujustukaisen31</strong></p>
-            <button class="close-btn" onclick="closeModal('softModal')">Kapat</button>
+            <h2>Yazılım & Destek</h2>
+            <p>Discord adreslerimizden bize ulaşın:</p>
+            <p style="margin-top:10px;">• curse_prime64</p>
+            <p>• jujustukaisen31</p>
+            <button class="pay-confirm" onclick="closeModal('softModal')">Kapat</button>
         </div>
     </div>
 
@@ -131,26 +205,20 @@
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
         
-        function openPayment(title) { 
+        function openPay(title) { 
             document.getElementById('payTitle').innerText = title;
-            document.getElementById('paymentModal').style.display = 'flex'; 
+            openModal('payModal');
         }
 
-        function validateAndPay() {
-            const name = document.getElementById('cardName').value;
-            const no = document.getElementById('cardNo').value.replace(/\s/g, '');
-            const skt = document.getElementById('cardSkt').value;
-            const cvc = document.getElementById('cardCvc').value;
-
-            if (name.length < 5) { alert("Lütfen kart üzerindeki ismi tam girin!"); return; }
-            if (no.length !== 16 || isNaN(no)) { alert("Geçersiz Kart Numarası! 16 hane olmalıdır."); return; }
-            if (!skt.includes('/') || skt.length < 5) { alert("Geçersiz SKT! Örn: 05/28"); return; }
-            if (cvc.length < 3) { alert("Geçersiz CVC!"); return; }
-
-            alert("Ödeme Başarılı! Bilgiler doğrulandı. Ürününüz sunucuda teslim edilecektir.");
-            closeModal('paymentModal');
+        function validatePay() {
+            const no = document.getElementById('cNo').value.replace(/\s/g, '');
+            if(no.length === 16 && !isNaN(no)) {
+                alert("TEBRİKLER! Ödeme başarıyla onaylandı. ttni Network sizi bekliyor!");
+                closeModal('payModal');
+            } else {
+                alert("HATA: Lütfen geçerli bir 16 haneli kart numarası giriniz!");
+            }
         }
     </script>
-
 </body>
 </html>
