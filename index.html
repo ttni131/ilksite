@@ -3,78 +3,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTNİ Network | Live Edition</title>
+    <title>TTNİ Network | Manager Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* CANLI KARLI ARKA PLAN (LEUSCRAFT STYLE) */
+        /* --- TEMEL AYARLAR --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         
         body { 
-            background: radial-gradient(circle, #1a4a9e 0%, #0a1a3a 100%);
+            background: radial-gradient(circle, #1a4a9e 0%, #0a1a3a 100%); /* Leuscraft Mavi */
             color: white; 
             min-height: 100vh;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Kar Taneleri İçin Canvas */
+        /* CANLI KAR EFEKTİ CANVAS */
         #snowCanvas {
             position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
-            z-index: -1;
+            z-index: 1;
             pointer-events: none;
         }
 
-        /* NAVBAR */
+        /* --- NAVBAR --- */
         nav { 
-            background: rgba(10, 20, 50, 0.8); 
-            backdrop-filter: blur(10px);
+            background: rgba(10, 20, 50, 0.9); 
+            backdrop-filter: blur(15px);
             padding: 15px 10%; 
             display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 1000;
             border-bottom: 2px solid #b30000;
         }
+        .nav-logo { font-weight: 900; font-size: 1.4rem; letter-spacing: 2px; }
+        .nav-logo span { color: #b30000; }
 
-        .container { max-width: 1100px; margin: 60px auto; padding: 0 20px; position: relative; z-index: 10; }
-
-        /* LOGO ALANI */
-        .logo-box { text-align: center; margin-bottom: 50px; }
-        .logo-box h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: 5px; text-shadow: 0 0 20px rgba(255,255,255,0.3); }
-        .logo-box p { color: #81d4fa; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; }
-
-        /* KART TASARIMI */
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.05); 
-            backdrop-filter: blur(15px); 
-            border-radius: 20px; padding: 40px; 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
+        /* --- ANA İÇERİK --- */
+        .container { 
+            max-width: 1100px; 
+            margin: 80px auto; 
+            padding: 0 20px; 
+            position: relative; 
+            z-index: 10; 
         }
 
+        .hero-section { text-align: center; margin-bottom: 60px; }
+        .hero-section h1 { font-size: 4rem; font-weight: 900; letter-spacing: 8px; margin-bottom: 10px; }
+        .hero-section p { color: #81d4fa; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
+
+        /* --- MANAGER KARTI (KOYU BORDO & KALIN) --- */
+        .card-container { display: flex; justify-content: center; }
         .manager-card {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(10px);
             border: 2px solid #b30000; 
-            border-radius: 15px; padding: 40px; text-align: center;
-            box-shadow: 0 0 30px rgba(179, 0, 0, 0.3);
-            transition: 0.4s;
+            border-radius: 20px; 
+            padding: 50px 40px; 
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 0 40px rgba(179, 0, 0, 0.4);
+            transition: 0.4s ease;
         }
-        .manager-card h3 { font-size: 3rem; font-weight: 900; color: #b30000; text-shadow: 0 0 15px rgba(179, 0, 0, 0.5); }
-        .price { font-size: 2rem; font-weight: 900; color: #2ecc71; margin: 20px 0; display: block; }
-        
-        .btn-purchase { 
-            width: 100%; padding: 18px; background: #b30000; color: white; border: none; 
-            border-radius: 10px; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s;
-        }
-        .btn-purchase:hover { background: #e60000; transform: scale(1.05); }
+        .manager-card:hover { transform: translateY(-10px); box-shadow: 0 0 60px rgba(179, 0, 0, 0.6); }
 
-        /* ÖDEME MODALI */
-        #paymentModal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9); z-index: 2000; justify-content: center; align-items: center;
+        .rank-label { color: #b30000; font-weight: 900; letter-spacing: 4px; font-size: 0.8rem; margin-bottom: 15px; }
+        
+        /* Manager Yazısı &4 Kodu Gibi Koyu Bordo ve Kalın */
+        .manager-card h3 { 
+            font-size: 3.5rem; 
+            font-weight: 900; 
+            color: #b30000; 
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.8);
+            margin-bottom: 5px;
+        }
+        .mc-format { color: #666; font-size: 0.9rem; font-weight: 700; margin-bottom: 25px; }
+
+        .price { font-size: 2.5rem; font-weight: 900; color: #2ecc71; margin-bottom: 30px; display: block; }
+        
+        .buy-btn { 
+            width: 100%; 
+            padding: 20px; 
+            background: #b30000; 
+            color: white; 
+            border: none; 
+            border-radius: 12px; 
+            font-weight: 900; 
+            font-size: 1.1rem;
+            cursor: pointer; 
+            text-transform: uppercase; 
+            transition: 0.3s;
+        }
+        .buy-btn:hover { background: #e60000; transform: scale(1.03); }
+
+        /* --- CHECKOUT MODAL (ÖDEME EKRANI) --- */
+        #checkoutModal {
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95); 
+            z-index: 2000; 
+            justify-content: center; align-items: center;
         }
         .checkout-box {
-            background: #0a1a3a; border: 2px solid #b30000; padding: 30px; border-radius: 15px;
-            width: 90%; max-width: 450px; box-shadow: 0 0 40px rgba(179, 0, 0, 0.5);
+            background: #0a1329; 
+            border: 2px solid #b30000; 
+            padding: 40px; 
+            border-radius: 20px;
+            width: 95%; max-width: 480px; 
+            box-shadow: 0 0 50px rgba(179, 0, 0, 0.5);
         }
-        .input-group { margin-bottom: 15px; }
-        .input
+        .checkout-box h2 { text-align: center; color: #b30000; font-weight: 900; font-size: 2rem; margin-bottom: 25px; }
+
+        .input-row { display: flex; gap: 15px; }
+        .field { margin-bottom: 20px; }
+        .field label { display: block; margin-bottom: 8px; font-size: 0.7rem; font-weight: 900; color: #81d4fa; text-transform: uppercase; }
+        .field input {
+            width: 100%; padding: 14px; background: rgba(255,255,255,0.05); border: 1px solid #222;
+            color: white; border-radius: 8px; font-weight: 700; font-size: 1rem;
+        }
+        .field input:focus { border-color: #b30000; outline: none; background: rgba(255,255,255,0.1); }
+
+        .pay-submit {
+            width: 100%; padding: 18px; background: #2ecc71; color: #000; border: none;
+            border-radius: 10px; font-weight: 900; font-size: 1rem; cursor: pointer; margin-top: 10px;
+        }
+        .cancel-txt { text-align: center; margin-top: 20px; color: #555; cursor: pointer; font-size: 0.8rem; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <canvas id="snowCanvas"></canvas>
+
+    <nav>
+        <div class="nav-logo">TTNİ <span>NETWORK</span></div>
+        <div style="font-weight: 900; font-size: 0.8rem; opacity: 0.6;">SECURE STORE</div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-section">
+            <h1>LEUSCRAFT</h1>
+            <p>Geleceğin Yetkililerini Arıyoruz</p>
+        </div>
+
+        <div class="card-container">
+            <div class="manager-card">
+                <div class="rank-label">OFFICIAL STAFF</div>
+                <h3>MANAGER</h3>
+                <p class="mc-format">In-game: &4&l[MANAGER]</p>
+                <span class="price">$25.00</span>
+                <button class="buy-btn" onclick="openCheckout()">BUY NOW</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="checkoutModal">
+        <div class="checkout-box">
+            <h2>CHECKOUT</h2>
+            <form onsubmit="processPayment(event)">
+                <div class="field">
+                    <label>Card Holder Name</label>
+                    <input type="text" placeholder="EMİR ..." required>
+                </div>
+                <div class="field">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="16" required>
+                </div>
+                <div class="input-row">
+                    <div class="field" style="flex: 2;">
+                        <label>Expiry Date</label>
+                        <input type="text" placeholder="MM/YY" maxlength="5" required>
+                    </div>
+                    <div class="field" style="flex: 1;">
+                        <label>CVV</label>
+                        <input type="password" placeholder="***" maxlength="3" required>
+                    </div>
+                </div>
+                <button type="submit" class="pay-submit">CONFIRM AND PAY</button>
+                <div class="cancel-txt" onclick="closeCheckout()">BACK TO STORE</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        /* --- CANLI KAR SİSTEMİ --- */
+        const canvas = document.getElementById('snowCanvas');
+        const ctx = canvas.getContext('2d');
+        let width, height, particles;
+
+        function initSnow() {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+            particles = [];
+            for (let i = 0; i < 120; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    r: Math.random() * 3 + 1,
+                    d: Math.random() * 1
+                });
+            }
+        }
+
+        function drawSnow() {
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.beginPath();
+            for (let p of particles) {
+                ctx.moveTo(p.x, p.y);
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2, true);
+            }
+            ctx.fill();
+            updateSnow();
+        }
+
+        function updateSnow() {
+            for (let p of particles) {
+                p.y += Math.cos(p.d) + 1 + p.r / 2;
+                p.x += Math.sin(p.d) * 1;
+                if (p.y > height) {
+                    p.x = Math.random() * width;
+                    p.y = -10;
+                }
+            }
+        }
+
+        function animate() {
+            drawSnow();
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', initSnow);
+        initSnow();
+        animate();
+
+        /* --- ÖDEME SİSTEMİ FONKSİYONLARI --- */
+        function openCheckout() {
+            document.getElementById('checkoutModal').style.display = 'flex';
+        }
+
+        function closeCheckout() {
+            document.getElementById('checkoutModal').style.display = 'none';
+        }
+
+        function processPayment(e) {
+            e.preventDefault();
+            alert("Ödeme İşleniyor...\nSunucu yetkiniz otomatik olarak tanımlanacaktır.");
+            closeCheckout();
+        }
+    </script>
+</body>
+</html>
