@@ -3,15 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ttni Network | Market & İletişim</title>
+    <title>ttni Network | Resmi Web Sitesi</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #0f172a; color: white; padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
         
         /* ÜST MENÜ */
-        nav { margin-bottom: 30px; display: flex; gap: 15px; }
+        nav { margin-bottom: 30px; display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
         .nav-btn { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 30px; cursor: pointer; transition: 0.3s; font-weight: 600; }
         .nav-btn:hover { background: #fbbf24; color: black; border-color: #fbbf24; }
+        
+        /* PARLAYAN IP BUTONU */
+        .ip-nav-btn { background: #22c55e; border: none; box-shadow: 0 0 15px rgba(34, 197, 94, 0.4); }
+        .ip-nav-btn:hover { background: #16a34a; transform: scale(1.05); color: white; }
 
         header { text-align: center; margin-bottom: 50px; }
         header h1 { font-size: 3.5rem; background: linear-gradient(to right, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
@@ -26,51 +30,43 @@
         .buy-btn { display: block; background: #fbbf24; color: #000; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; width: 100%; transition: 0.3s; }
         .buy-btn:hover { background: #fff; }
 
-        /* YAZILIM BİLGİSİ BÖLÜMÜ (YENİ) */
-        .software-info {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-            border: 2px dashed #fbbf24;
-            padding: 30px;
-            border-radius: 20px;
-            max-width: 700px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .software-info:hover { background: rgba(251, 191, 36, 0.1); transform: scale(1.02); }
-        .software-info h2 { color: #fbbf24; margin-bottom: 10px; }
-        .software-info p { color: #cbd5e1; line-height: 1.6; }
+        .software-info { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 2px dashed #fbbf24; padding: 30px; border-radius: 20px; max-width: 700px; text-align: center; cursor: pointer; transition: 0.3s; }
+        .software-info:hover { background: rgba(251, 191, 36, 0.1); }
 
-        /* MODAL (PENCERE) TASARIMI */
+        /* MODAL TASARIMI */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(8px); }
-        .modal-content { background: #1e293b; color: white; padding: 40px; border-radius: 30px; width: 450px; text-align: center; border: 2px solid #fbbf24; }
+        .modal-content { background: #1e293b; color: white; padding: 40px; border-radius: 30px; width: 450px; text-align: center; border: 2px solid #fbbf24; animation: zoomIn 0.3s ease; }
         
-        .team-member { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid #fbbf24; text-align: left; }
-        .team-member h3 { color: #fbbf24; margin-bottom: 5px; }
+        @keyframes zoomIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
+        .team-member { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid #fbbf24; text-align: left; }
         .close-btn { background: #ff4444; color: white; padding: 10px 20px; border: none; border-radius: 10px; cursor: pointer; margin-top: 15px; font-weight: bold; }
+
+        /* IP ÖZEL STİL */
+        .ip-text { font-size: 1.5rem; color: #55FF55; font-weight: bold; margin-bottom: 10px; display: block; }
     </style>
 </head>
 <body>
 
     <nav>
+        <button class="nav-btn ip-nav-btn" onclick="openModal('ipModal')">🎮 Sunucu IP Adresi</button>
         <button class="nav-btn" onclick="openModal('teamModal')">👥 Ekibimiz</button>
-        <button class="nav-btn" onclick="document.getElementById('softSec').scrollIntoView({behavior: 'smooth'})">💻 Yazılım Desteği</button>
+        <button class="nav-btn" onclick="openModal('softModal')">💻 Yazılım Desteği</button>
     </nav>
 
     <header>
         <h1>ttni Network</h1>
-        <p>Kalitenin ve Eğlencenin Adresi</p>
+        <p>Aternos'un En Kaliteli Sunucusu</p>
     </header>
 
     <div class="rank-container">
         <div class="rank-card">
             <div class="rank-name vip">VIP</div>
-            <button class="buy-btn" onclick="alert('Ödeme ekranına yönlendiriliyorsunuz...')">SATIN AL</button>
+            <button class="buy-btn" onclick="alert('Ödeme sistemine yönlendiriliyorsunuz...')">SATIN AL</button>
         </div>
         <div class="rank-card">
             <div class="rank-name mvip">MVIP</div>
-            <button class="buy-btn" onclick="alert('Ödeme ekranına yönlendiriliyorsunuz...')">SATIN AL</button>
+            <button class="buy-btn" onclick="alert('Ödeme sistemine yönlendiriliyorsunuz...')">SATIN AL</button>
         </div>
         <div class="rank-card">
             <div class="rank-name helper">HELPER</div>
@@ -78,10 +74,18 @@
         </div>
     </div>
 
-    <div id="softSec" class="software-info" onclick="openModal('softModal')">
+    <div class="software-info" onclick="openModal('softModal')">
         <h2>Yazılım & Geliştirme</h2>
-        <p>Yazılımla ilgili bir bilginiz veya sorunuz varsa bizimle iletişime geçebilirsiniz!</p>
-        <p style="font-size: 0.8rem; margin-top: 10px; color: #fbbf24;">Detaylar için tıkla...</p>
+        <p>Yazılımla ilgili bir bilginiz veya sorunuz varsa tıklayın!</p>
+    </div>
+
+    <div id="ipModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;">Sunucumuza Katıl!</h2>
+            <span class="ip-text">ttninetwork313.aternos.me</span>
+            <p>Hepiniz bekleriz!</p>
+            <button class="close-btn" onclick="closeModal('ipModal')">Kapat</button>
+        </div>
     </div>
 
     <div id="teamModal" class="modal">
@@ -89,11 +93,11 @@
             <h2 style="margin-bottom: 25px;">ttni Network Ekibi</h2>
             <div class="team-member">
                 <h3>ttni (Kurucu)</h3>
-                <p><strong>Yaş:</strong> 11 | <strong>Discord:</strong> curse_prime64</p>
+                <p>Yaş: 11 | Discord: curse_prime64</p>
             </div>
             <div class="team-member">
                 <h3>konacore (Yönetici)</h3>
-                <p><strong>Yaş:</strong> 11 | <strong>Discord:</strong> uras53</p>
+                <p>Yaş: 11 | Discord: uras53</p>
             </div>
             <button class="close-btn" onclick="closeModal('teamModal')">Kapat</button>
         </div>
@@ -101,13 +105,13 @@
 
     <div id="softModal" class="modal">
         <div class="modal-content">
-            <h2 style="color: #fbbf24; margin-bottom: 20px;">İletişim Kanalları</h2>
-            <p style="margin-bottom: 20px;">Yazılımla ilgili sorularınız için aşağıdaki Discord adreslerinden bize ulaşabilirsiniz:</p>
-            <div class="team-member" style="border-left-color: #55ffff;">
-                <p>🔵 <strong>Discord:</strong> curse_prime64</p>
+            <h2 style="color: #fbbf24; margin-bottom: 20px;">Yazılım İletişim</h2>
+            <p>Sorularınız için aşağıdaki Discord adreslerinden bize ulaşabilirsiniz:</p>
+            <div class="team-member" style="border-left-color: #55ffff; margin-top: 15px;">
+                <p>Discord: <strong>curse_prime64</strong></p>
             </div>
             <div class="team-member" style="border-left-color: #55ffff;">
-                <p>🔵 <strong>Discord:</strong> uras53</p>
+                <p>Discord: <strong>uras53</strong></p>
             </div>
             <button class="close-btn" onclick="closeModal('softModal')">Anladım</button>
         </div>
