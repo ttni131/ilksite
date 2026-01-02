@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTNI Network | Neon Store</title>
+    <title>TTNI Network | Professional Store</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
     <style>
-        /* BASE STYLES */
+        /* GENEL TASARIM */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         
         body { 
@@ -17,7 +17,7 @@
             position: relative;
         }
 
-        /* LIVE SNOWFALL BACKGROUND */
+        /* CANLI KAR TOPU ARKA PLAN */
         #snowCanvas {
             position: fixed;
             top: 0; left: 0;
@@ -27,32 +27,26 @@
             background: radial-gradient(circle at center, #0a1a3a 0%, #050505 100%);
         }
 
-        /* NAVIGATION */
+        /* NAVBAR */
         nav { 
-            background: rgba(0, 0, 0, 0.8); 
+            background: rgba(0, 0, 0, 0.85); 
             backdrop-filter: blur(15px);
             padding: 15px 10%; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000;
+            display: flex; justify-content: space-between; align-items: center; 
+            position: sticky; top: 0; z-index: 1000;
             border-bottom: 1px solid rgba(0, 210, 255, 0.2);
         }
-        .nav-links { display: flex; gap: 25px; }
+        .nav-links { display: flex; gap: 20px; }
         .nav-btn { color: #888; text-decoration: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; background: none; border: none; transition: 0.3s; position: relative; z-index: 1001; }
         .nav-btn.active, .nav-btn:hover { color: #00d2ff; text-shadow: 0 0 8px #00d2ff; }
         
         .login-btn { color: white; background: none; border: 1px solid #00d2ff; padding: 7px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; position: relative; z-index: 1001; }
-        .login-btn:hover { background: rgba(0, 210, 255, 0.1); box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
 
         /* HEADER */
-        header { text-align: center; padding: 60px 10% 30px; position: relative; z-index: 10; }
+        header { text-align: center; padding: 60px 10% 20px; position: relative; z-index: 10; }
         header h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: 5px; background: linear-gradient(to right, #00d2ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        header p { color: #555; font-weight: 600; letter-spacing: 2px; }
 
-        /* CONTAINER & CARDS */
+        /* KARTLAR */
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; position: relative; z-index: 10; }
         .section-header { font-size: 1.4rem; font-weight: 600; margin: 40px 0 20px; color: #00d2ff; display: flex; align-items: center; gap: 15px; text-transform: uppercase; }
         .section-header::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to right, rgba(0, 210, 255, 0.5), transparent); }
@@ -62,25 +56,24 @@
         .card { 
             background: rgba(255, 255, 255, 0.03); 
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px; 
-            padding: 30px; 
-            text-align: center;
-            transition: 0.4s;
-            backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 35px; text-align: center; transition: 0.4s; backdrop-filter: blur(10px);
         }
         .card:hover { transform: translateY(-10px); border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); }
 
-        /* SPECIAL MANAGER CARD (DARK RED) */
+        /* MANAGER (KOYU BORDO & KALIN) */
         .manager-card { border: 2px solid #b30000 !important; background: rgba(179, 0, 0, 0.05) !important; }
-        .manager-card h3 { color: #b30000 !important; font-weight: 900 !important; font-size: 2rem !important; }
-        .manager-card:hover { border-color: #ff0000 !important; box-shadow: 0 0 30px rgba(179, 0, 0, 0.4) !important; }
-        .manager-btn { border-color: #b30000 !important; color: #b30000 !important; }
+        .manager-card h3 { color: #b30000 !important; font-weight: 900 !important; font-size: 1.8rem !important; text-shadow: 0 0 10px rgba(179, 0, 0, 0.3); }
+        .manager-btn { border-color: #b30000 !important; color: #b30000 !important; font-weight: 900; }
         .manager-btn:hover { background: #b30000 !important; color: white !important; }
 
-        .card h3 { font-size: 1.6rem; margin-bottom: 10px; color: #fff; }
-        .card .price { font-size: 1.4rem; color: #00ff88; font-weight: 600; margin-bottom: 25px; display: block; }
-        .card-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.3s; }
-        .card-btn:hover { background: #00d2ff; color: #000; border-color: #00d2ff; box-shadow: 0 0 15px #00d2ff; }
+        /* HELPER (AÇIK MAVİ / TURKUAZ) */
+        .helper-card { border: 2px solid #00ffcc !important; background: rgba(0, 255, 204, 0.05) !important; }
+        .helper-card h3 { color: #00ffcc !important; font-weight: 900 !important; font-size: 1.8rem !important; }
+        .helper-btn { border-color: #00ffcc !important; color: #00ffcc !important; font-weight: 900; }
+        .helper-btn:hover { background: #00ffcc !important; color: black !important; }
+
+        .card-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 15px; }
+        .card .price { font-size: 1.4rem; color: #00ff88; font-weight: 600; display: block; }
 
         /* PAYMENT MODAL */
         #paymentModal {
@@ -89,17 +82,12 @@
         }
         .modal-box {
             background: #0d1117; border: 2px solid #00d2ff; padding: 35px; border-radius: 20px;
-            width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
+            width: 90%; max-width: 400px; text-align: center;
         }
-        .modal-box h2 { color: #00d2ff; text-align: center; margin-bottom: 20px; font-weight: 900; }
-        .input-field { width: 100%; padding: 12px; margin-bottom: 15px; background: #161b22; border: 1px solid #30363d; color: white; border-radius: 8px; }
-        .pay-btn { width: 100%; padding: 15px; background: #00ff88; border: none; border-radius: 10px; font-weight: 900; cursor: pointer; color: #000; }
-
-        .bg-text-footer { text-align: center; font-size: 9vw; font-weight: 900; color: rgba(255, 255, 255, 0.01); pointer-events: none; margin-top: 50px; text-transform: uppercase; }
+        .input-field { width: 100%; padding: 12px; margin-bottom: 10px; background: #161b22; border: 1px solid #30363d; color: white; border-radius: 8px; }
 
         .page { display: none; }
-        .page.active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .page.active { display: block; }
     </style>
 </head>
 <body>
@@ -110,70 +98,62 @@
         <div class="nav-links">
             <button class="nav-btn active" onclick="showPage('mc', event)">MINECRAFT</button>
             <button class="nav-btn" onclick="showPage('valo', event)">VALORANT</button>
-            <button class="nav-btn" onclick="showPage('robux', event)">ROBLOX</button>
         </div>
-        <div class="auth-buttons">
-            <button class="login-btn">Sign In / Register</button>
-        </div>
+        <button class="login-btn">Sign In</button>
     </nav>
 
     <header>
         <h1>TTNI NETWORK</h1>
-        <p>Modern Gaming Experience</p>
+        <p style="color: #666;">Modern Gaming Store</p>
     </header>
 
     <div class="container">
         <div id="mc" class="page active">
-            <div class="section-header">Server Ranks</div>
+            <div class="section-header">Staff Roles</div>
             <div class="grid">
                 <div class="card manager-card">
                     <h3>MANAGER</h3>
                     <span class="price" style="color:#b30000;">750.00 $</span>
                     <button class="card-btn manager-btn" onclick="openPayment('MANAGER', '750.00 $')">BUY NOW</button>
                 </div>
-                <div class="card"><h3>VIP</h3><span class="price">1.00 $</span><button class="card-btn" onclick="openPayment('VIP', '1.00 $')">BUY NOW</button></div>
-                <div class="card"><h3>MVIP</h3><span class="price">2.00 $</span><button class="card-btn" onclick="openPayment('MVIP', '2.00 $')">BUY NOW</button></div>
+                
+                <div class="card helper-card">
+                    <h3>HELPER</h3>
+                    <span class="price" style="color:#00ffcc;">FREE</span>
+                    <button class="card-btn helper-btn" onclick="window.location.href='https://discord.com/users/curse_prime64'">APPLY NOW</button>
+                </div>
+
+                <div class="card"><h3>VIP</h3><span class="price">5.00 $</span><button class="card-btn" onclick="openPayment('VIP', '5.00 $')">BUY NOW</button></div>
             </div>
 
-            <div class="section-header">Economy Packages</div>
+            <div class="section-header">Economy</div>
             <div class="grid">
-                <div class="card"><h3>50M MONEY</h3><span class="price">2.00 $</span><button class="card-btn" onclick="openPayment('50M Money', '2.00 $')">BUY NOW</button></div>
-                <div class="card"><h3>1B MONEY</h3><span class="price">5.00 $</span><button class="card-btn" onclick="openPayment('1B Money', '5.00 $')">BUY NOW</button></div>
+                <div class="card"><h3>100M MONEY</h3><span class="price">10.00 $</span><button class="card-btn" onclick="openPayment('100M Money', '10.00 $')">BUY NOW</button></div>
             </div>
         </div>
 
         <div id="valo" class="page">
             <div class="section-header">Valorant Points</div>
             <div class="grid">
-                <div class="card"><h3>1000 VP</h3><span class="price">10.00 $</span><button class="card-btn" onclick="openPayment('1000 VP', '10.00 $')">BUY NOW</button></div>
-                <div class="card"><h3>5000 VP</h3><span class="price">45.00 $</span><button class="card-btn" onclick="openPayment('5000 VP', '45.00 $')">BUY NOW</button></div>
-            </div>
-        </div>
-
-        <div id="robux" class="page">
-            <div class="section-header">Robux Packages</div>
-            <div class="grid">
-                <div class="card"><h3>1000 ROBUX</h3><span class="price">12.00 $</span><button class="card-btn" onclick="openPayment('1000 Robux', '12.00 $')">BUY NOW</button></div>
+                <div class="card"><h3>2500 VP</h3><span class="price">25.00 $</span><button class="card-btn" onclick="openPayment('2500 VP', '25.00 $')">BUY NOW</button></div>
             </div>
         </div>
     </div>
 
     <div id="paymentModal">
         <div class="modal-box">
-            <h2 id="productTitle">CHECKOUT</h2>
-            <p id="productPrice" style="text-align: center; margin-bottom: 20px; color: #00ff88; font-weight: bold;"></p>
-            <input type="text" class="input-field" placeholder="Card Holder Name">
-            <input type="text" class="input-field" placeholder="Card Number (16 Digits)">
+            <h2 id="productTitle" style="color:#00d2ff; margin-bottom:10px;">CHECKOUT</h2>
+            <p id="productPrice" style="color:#00ff88; margin-bottom:20px; font-weight:bold;"></p>
+            <input type="text" class="input-field" placeholder="Full Name">
+            <input type="text" class="input-field" placeholder="Card Number">
             <div style="display:flex; gap:10px;">
                 <input type="text" class="input-field" placeholder="MM/YY">
-                <input type="password" class="input-field" placeholder="CVV">
+                <input type="text" class="input-field" placeholder="CVV">
             </div>
-            <button class="pay-btn" onclick="completePayment()">COMPLETE PAYMENT</button>
-            <button style="background:none; border:none; color:#555; width:100%; margin-top:10px; cursor:pointer;" onclick="closePayment()">Cancel</button>
+            <button class="card-btn" style="background:#00ff88; color:black; border:none;" onclick="alert('Payment processing...'); closePayment();">PAY NOW</button>
+            <button style="background:none; border:none; color:#555; margin-top:10px; cursor:pointer;" onclick="closePayment()">Cancel</button>
         </div>
     </div>
-
-    <div class="bg-text-footer">TTNI NETWORK</div>
 
     <script>
         /* SNOWFALL ENGINE */
@@ -192,15 +172,14 @@
                     x: Math.random() * width,
                     y: Math.random() * height,
                     speed: Math.random() * 2 + 0.5,
-                    radius: Math.random() * 3 + 1,
-                    opacity: Math.random()
+                    radius: Math.random() * 2 + 1
                 });
             }
         }
 
         function drawSnow() {
             ctx.clearRect(0, 0, width, height);
-            ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+            ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
             ctx.beginPath();
             for(let flake of flakes) {
                 ctx.moveTo(flake.x, flake.y);
@@ -226,7 +205,7 @@
         initSnow();
         animate();
 
-        /* PAGE & MODAL LOGIC */
+        /* LOGIC */
         function showPage(id, event) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -242,11 +221,6 @@
 
         function closePayment() {
             document.getElementById('paymentModal').style.display = 'none';
-        }
-
-        function completePayment() {
-            alert("Payment Successful! Welcome to TTNI Network.");
-            closePayment();
         }
     </script>
 </body>
