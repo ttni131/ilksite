@@ -60,12 +60,6 @@
         }
         .card:hover { transform: translateY(-10px); border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); }
 
-        /* MANAGER (KOYU BORDO & KALIN) */
-        .manager-card { border: 2px solid #b30000 !important; background: rgba(179, 0, 0, 0.05) !important; }
-        .manager-card h3 { color: #b30000 !important; font-weight: 900 !important; font-size: 1.8rem !important; text-shadow: 0 0 10px rgba(179, 0, 0, 0.3); }
-        .manager-btn { border-color: #b30000 !important; color: #b30000 !important; font-weight: 900; }
-        .manager-btn:hover { background: #b30000 !important; color: white !important; }
-
         /* HELPER (AÇIK MAVİ / TURKUAZ) */
         .helper-card { border: 2px solid #00ffcc !important; background: rgba(0, 255, 204, 0.05) !important; }
         .helper-card h3 { color: #00ffcc !important; font-weight: 900 !important; font-size: 1.8rem !important; }
@@ -104,19 +98,13 @@
 
     <header>
         <h1>TTNI NETWORK</h1>
-        <p style="color: #666;">Modern Gaming Store</p>
+        <p style="color: #666;">Official Network Store</p>
     </header>
 
     <div class="container">
         <div id="mc" class="page active">
             <div class="section-header">Staff Roles</div>
             <div class="grid">
-                <div class="card manager-card">
-                    <h3>MANAGER</h3>
-                    <span class="price" style="color:#b30000;">750.00 $</span>
-                    <button class="card-btn manager-btn" onclick="openPayment('MANAGER', '750.00 $')">BUY NOW</button>
-                </div>
-                
                 <div class="card helper-card">
                     <h3>HELPER</h3>
                     <span class="price" style="color:#00ffcc;">FREE</span>
@@ -124,11 +112,13 @@
                 </div>
 
                 <div class="card"><h3>VIP</h3><span class="price">5.00 $</span><button class="card-btn" onclick="openPayment('VIP', '5.00 $')">BUY NOW</button></div>
+                <div class="card"><h3>MVIP</h3><span class="price">10.00 $</span><button class="card-btn" onclick="openPayment('MVIP', '10.00 $')">BUY NOW</button></div>
             </div>
 
             <div class="section-header">Economy</div>
             <div class="grid">
                 <div class="card"><h3>100M MONEY</h3><span class="price">10.00 $</span><button class="card-btn" onclick="openPayment('100M Money', '10.00 $')">BUY NOW</button></div>
+                <div class="card"><h3>50M MONEY</h3><span class="price">6.00 $</span><button class="card-btn" onclick="openPayment('50M Money', '6.00 $')">BUY NOW</button></div>
             </div>
         </div>
 
