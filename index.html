@@ -3,80 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ttni Network | Market</title>
+    <title>ttni Network | Market & Başvuru</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { background: #0f172a; color: white; padding: 50px 20px; display: flex; flex-direction: column; align-items: center; }
         
         header { text-align: center; margin-bottom: 50px; }
-        header h1 { font-size: 3.5rem; background: linear-gradient(to right, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header h1 { font-size: 3.5rem; background: linear-gradient(to right, #fbbf24, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; text-shadow: 0 5px 15px rgba(251, 191, 36, 0.2); }
+        header p { color: #94a3b8; margin-top: 10px; }
 
-        .rank-container { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; }
-        .rank-card { background: #1e293b; border: 2px solid #334155; border-radius: 20px; padding: 30px; width: 300px; text-align: center; transition: 0.3s; }
-        .rank-card:hover { transform: translateY(-10px); border-color: #fbbf24; }
+        .rank-container { display: flex; justify-content: center; gap: 25px; flex-wrap: wrap; max-width: 1200px; }
+        
+        /* Kart Tasarımı */
+        .rank-card { background: #1e293b; border: 2px solid #334155; border-radius: 20px; padding: 30px; width: 300px; text-align: center; transition: 0.3s; position: relative; }
+        .rank-card:hover { transform: translateY(-10px); border-color: #fbbf24; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
 
-        .rank-name { font-size: 2rem; font-weight: bold; margin-bottom: 15px; }
-        .vip { color: #55FF55; } .mvip { color: #55FFFF; } .helper { color: #FF55FF; }
-        .price { font-size: 1.5rem; margin-bottom: 20px; color: #cbd5e1; }
-        .features { list-style: none; text-align: left; margin-bottom: 30px; color: #94a3b8; font-size: 0.9rem; }
-        .features li::before { content: "✔ "; color: #fbbf24; }
+        .rank-name { font-size: 2.2rem; font-weight: bold; margin-bottom: 15px; }
+        .vip { color: #55FF55; } /* Yeşil */
+        .mvip { color: #55FFFF; } /* Turkuaz */
+        .helper { color: #FF55FF; } /* Pembe/Mor */
 
-        .buy-btn { display: block; background: #fbbf24; color: #000; text-decoration: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; width: 100%; transition: 0.3s; }
-        .buy-btn:hover { background: #fff; }
+        .price { font-size: 1.5rem; margin-bottom: 20px; color: #cbd5e1; font-weight: 600; }
+        .features { list-style: none; text-align: left; margin-bottom: 30px; color: #94a3b8; font-size: 0.95rem; min-height: 120px; }
+        .features li { margin-bottom: 8px; }
+        .features li::before { content: "✔ "; color: #fbbf24; font-weight: bold; }
 
-        /* ÖDEME EKRANI (MODAL) */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; }
-        .payment-card { background: white; color: black; padding: 30px; border-radius: 20px; width: 400px; }
-        .payment-card h2 { margin-bottom: 20px; color: #0f172a; }
-        .payment-card input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem; }
-        .payment-card .row { display: flex; gap: 10px; }
-        .pay-now { background: #fbbf24; color: black; width: 100%; padding: 15px; border: none; border-radius: 10px; font-weight: bold; font-size: 1.1rem; cursor: pointer; }
-        .close-btn { background: #ff4444; color: white; width: 100%; padding: 10px; border: none; border-radius: 10px; margin-top: 10px; cursor: pointer; }
+        /* Butonlar */
+        .buy-btn { display: block; background: #fbbf24; color: #000; text-decoration: none; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; border: none; width: 100%; transition: 0.3s; font-size: 1rem; }
+        .buy-btn:hover { background: #fff; transform: scale(1.02); }
+        .helper-btn { background: #a21caf; color: white; }
+        .helper-btn:hover { background: #d946ef; }
+
+        /* ÖDEME MODALI (Kredi Kartı Ekranı) */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
+        .payment-card { background: #f8fafc; color: #1e293b; padding: 35px; border-radius: 25px; width: 420px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        .payment-card h2 { margin-bottom: 20px; color: #0f172a; font-size: 1.5rem; border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; }
+        .payment-card label { display: block; text-align: left; font-size: 0.8rem; font-weight: bold; margin-bottom: 5px; color: #64748b; }
+        .payment-card input { width: 100%; padding: 12px; margin-bottom: 18px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 1rem; outline: none; transition: 0.2s; }
+        .payment-card input:focus { border-color: #fbbf24; }
+        .payment-card .row { display: flex; gap: 15px; }
+        
+        .pay-now { background: #0f172a; color: white; width: 100%; padding: 16px; border: none; border-radius: 12px; font-weight: bold; font-size: 1.1rem; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .pay-now:hover { background: #fbbf24; color: black; }
+        .close-btn { background: none; color: #94a3b8; width: 100%; padding: 10px; border: none; font-size: 0.9rem; cursor: pointer; text-decoration: underline; margin-top: 5px; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>ttni Network</h1>
-        <p>Marketimize Hoş Geldiniz!</p>
+        <p>Sunucumuzun marketine ve ekibine katılma sayfasına hoş geldiniz!</p>
     </header>
 
     <div class="rank-container">
         <div class="rank-card">
             <div class="rank-name vip">VIP</div>
-            <div class="price">25 TL</div>
-            <ul class="features"><li>[VIP] Tagı</li><li>Özel Kit</li></ul>
+            <div class="price">25 TL / Ay</div>
+            <ul class="features">
+                <li>[VIP] Tagı</li>
+                <li>Hızlı Giriş</li>
+                <li>Özel VIP Kiti</li>
+            </ul>
             <button class="buy-btn" onclick="openPayment('VIP')">SATIN AL</button>
         </div>
+
         <div class="rank-card">
             <div class="rank-name mvip">MVIP</div>
-            <div class="price">50 TL</div>
-            <ul class="features"><li>[MVIP] Tagı</li><li>/fly Yetkisi</li></ul>
+            <div class="price">50 TL / Ay</div>
+            <ul class="features">
+                <li>[MVIP] Tagı</li>
+                <li>/fly Yetkisi</li>
+                <li>Gelişmiş MVIP Kiti</li>
+                <li>Özel Efektler</li>
+            </ul>
             <button class="buy-btn" onclick="openPayment('MVIP')">SATIN AL</button>
+        </div>
+
+        <div class="rank-card">
+            <div class="rank-name helper">HELPER</div>
+            <div class="price">Ücretsiz</div>
+            <ul class="features">
+                <li>[HELPER] Tagı</li>
+                <li>Sohbet Yönetimi</li>
+                <li>Sunucu Düzeni</li>
+            </ul>
+            <button class="buy-btn helper-btn" onclick="helperApply()">BAŞVURU YAP</button>
         </div>
     </div>
 
     <div id="paymentModal" class="modal">
         <div class="payment-card">
-            <h2 id="rankTitle">Ödeme Bilgileri</h2>
-            <input type="text" placeholder="Kart Üzerindeki İsim">
-            <input type="text" placeholder="Kart Numarası (XXXX XXXX XXXX XXXX)">
+            <h2 id="rankTitle">Ödeme Paneli</h2>
+            <label>KART SAHİBİ</label>
+            <input type="text" placeholder="Ad Soyad">
+            <label>KART NUMARASI</label>
+            <input type="text" placeholder="0000 0000 0000 0000">
             <div class="row">
-                <input type="text" placeholder="AA/YY">
-                <input type="text" placeholder="CVV">
+                <div style="flex: 2;">
+                    <label>SKT</label>
+                    <input type="text" placeholder="AA/YY">
+                </div>
+                <div style="flex: 1;">
+                    <label>CVC</label>
+                    <input type="password" placeholder="***">
+                </div>
             </div>
-            <button class="pay-now" onclick="alert('Ödeme Başarılı! Sunucuya bağlanın.')">ÖDEMEYİ TAMAMLA</button>
-            <button class="close-btn" onclick="closePayment()">İPTAL ET</button>
+            <button class="pay-now" onclick="alert('Ödeme başarıyla simüle edildi! ttni Network sizi bekliyor.')">ÖDEMEYİ TAMAMLA</button>
+            <button class="close-btn" onclick="closePayment()">İşlemi İptal Et</button>
         </div>
     </div>
 
     <script>
         function openPayment(rankName) {
             document.getElementById('paymentModal').style.display = 'flex';
-            document.getElementById('rankTitle').innerText = rankName + " Satın Al";
+            document.getElementById('rankTitle').innerText = rankName + " Ödemesi";
         }
         function closePayment() {
             document.getElementById('paymentModal').style.display = 'none';
+        }
+        function helperApply() {
+            alert("Helper başvurusu için Discord üzerinden 'curse_prime64' adlı kişiye arkadaşlık isteği gönderiniz!");
         }
     </script>
 
