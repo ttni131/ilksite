@@ -36,14 +36,17 @@
         .card-btn { background: #eccc68; color: #2f3542; border: none; padding: 12px; border-radius: 25px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.3s; }
         .card-btn:hover { background: white; }
 
-        /* MODAL (KART BİLGİSİ EKRANI) */
+        /* RENKLER */
+        .vip-c { color: #2ecc71; }
+        .mvip-c { color: #34e7e4; }
+        .helper-c { color: #f59f55; } /* İstediğin F59F55 rengi */
+        .money-c { color: #eccc68; }
+
+        /* MODAL */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; z-index: 1000; backdrop-filter: blur(5px); }
-        .modal-content { background: white; color: #2f3542; padding: 40px; border-radius: 20px; width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .modal-content h2 { margin-bottom: 20px; font-weight: 900; border-bottom: 2px solid #f1f2f6; padding-bottom: 10px; }
-        .modal-content label { font-size: 0.8rem; font-weight: 700; margin-top: 10px; display: block; }
-        .modal-content input { width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; }
-        .pay-confirm { background: #2f3542; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; margin-top: 20px; font-size: 1rem; }
-        .pay-confirm:hover { background: #eccc68; color: #2f3542; }
+        .modal-content { background: white; color: #2f3542; padding: 40px; border-radius: 20px; width: 400px; }
+        .modal-content input { width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #ddd; border-radius: 8px; }
+        .pay-confirm { background: #2f3542; color: white; border: none; padding: 15px; width: 100%; border-radius: 10px; font-weight: 900; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -64,22 +67,44 @@
     </header>
 
     <div class="container">
-        <h2 style="margin-bottom: 20px;">MARKET ÜRÜNLERİ</h2>
+        <h2 style="margin-bottom: 20px; text-transform: uppercase;">Sunucu Rankları</h2>
         <div class="grid">
             <div class="card">
                 <h3>VIP</h3>
-                <span class="price-tag">25 TL</span>
+                <span class="price-tag vip-c">55FFF55</span>
+                <span style="display:block; margin-bottom:15px; color:#a4b0be;">25 TL</span>
                 <button class="card-btn" onclick="openPay('VIP - 25 TL')">SATIN AL</button>
             </div>
             <div class="card featured">
                 <h3>MVIP</h3>
-                <span class="price-tag">50 TL</span>
+                <span class="price-tag mvip-c">55YPR55</span>
+                <span style="display:block; margin-bottom:15px; color:#a4b0be;">50 TL</span>
                 <button class="card-btn" onclick="openPay('MVIP - 50 TL')">SATIN AL</button>
             </div>
             <div class="card">
+                <h3>HELPER</h3>
+                <span class="price-tag helper-c">F59F55</span>
+                <span style="display:block; margin-bottom:15px; color:#a4b0be;">45 TL</span>
+                <button class="card-btn" style="background:#f59f55; color:white;" onclick="alert('Helper Başvurusu İçin Discord: curse_prime64 üzerinden iletişime geçin!')">BAŞVURU YAP</button>
+            </div>
+        </div>
+
+        <h2 style="margin: 40px 0 20px; text-transform: uppercase;">OYUNCU PARASI (BAKİYE)</h2>
+        <div class="grid">
+            <div class="card">
                 <h3>MONEY 50M</h3>
-                <span class="price-tag">60 TL</span>
+                <span class="price-tag money-c">60 TL</span>
                 <button class="card-btn" onclick="openPay('50M Money - 60 TL')">SATIN AL</button>
+            </div>
+            <div class="card">
+                <h3>MONEY 100M</h3>
+                <span class="price-tag money-c">100 TL</span>
+                <button class="card-btn" onclick="openPay('100M Money - 100 TL')">SATIN AL</button>
+            </div>
+            <div class="card">
+                <h3>MONEY 1B</h3>
+                <span class="price-tag money-c">300 TL</span>
+                <button class="card-btn" onclick="openPay('1B Money - 300 TL')">SATIN AL</button>
             </div>
         </div>
     </div>
@@ -87,23 +112,13 @@
     <div id="payModal" class="modal">
         <div class="modal-content">
             <h2 id="payTitle">Ödeme Paneli</h2>
-            
-            <label>Kart Numarası</label>
-            <input type="text" id="cardNumber" placeholder="XXXX XXXX XXXX XXXX" maxlength="16">
-            
+            <input type="text" id="cNo" placeholder="Kart Numarası (16 Hane)" maxlength="16">
             <div style="display:flex; gap:10px;">
-                <div style="flex:1;">
-                    <label>AA/YY</label>
-                    <input type="text" id="cardExpiry" placeholder="05/28" maxlength="5">
-                </div>
-                <div style="flex:1;">
-                    <label>CVC</label>
-                    <input type="text" id="cardCvc" placeholder="123" maxlength="3">
-                </div>
+                <input type="text" placeholder="AA/YY" maxlength="5">
+                <input type="text" placeholder="CVC" maxlength="3">
             </div>
-
-            <button class="pay-confirm" onclick="processPayment()">ÖDEMEYİ TAMAMLA</button>
-            <button style="background:none; border:none; color:gray; cursor:pointer; width:100%; margin-top:15px; text-decoration:underline;" onclick="closeModal('payModal')">İşlemi İptal Et</button>
+            <button class="pay-confirm" onclick="validatePay()">ÖDEMEYİ TAMAMLA</button>
+            <button style="background:none; border:none; color:gray; cursor:pointer; width:100%; margin-top:10px;" onclick="closeModal('payModal')">Kapat</button>
         </div>
     </div>
 
@@ -112,38 +127,18 @@
             <h2>Ekibimiz</h2>
             <p><strong>ttni:</strong> Discord: curse_prime64</p>
             <p><strong>jujustukaisen31:</strong> Discord: jujustukaisen31</p>
-            <button class="pay-confirm" onclick="closeModal('teamModal')">Kapat</button>
+            <button class="pay-confirm" style="margin-top:20px;" onclick="closeModal('teamModal')">Kapat</button>
         </div>
     </div>
 
     <script>
         function openModal(id) { document.getElementById(id).style.display = 'flex'; }
         function closeModal(id) { document.getElementById(id).style.display = 'none'; }
-        
-        // Satın al butonuna basınca başlığı değiştir ve pencereyi aç
-        function openPay(title) { 
-            document.getElementById('payTitle').innerText = title; 
-            openModal('payModal'); 
-        }
-
-        // Ödemeyi Kontrol Et
-        function processPayment() {
-            const cardNo = document.getElementById('cardNumber').value;
-            const expiry = document.getElementById('cardExpiry').value;
-            const cvc = document.getElementById('cardCvc').value;
-
-            // Eğer bilgiler eksikse veya yanlışsa hata ver
-            if (cardNo.length < 16 || isNaN(cardNo)) {
-                alert("Hata: Kart numarası 16 haneli ve sadece sayılardan oluşmalıdır!");
-            } else if (expiry.length < 5 || !expiry.includes('/')) {
-                alert("Hata: Geçersiz Son Kullanma Tarihi (Örn: 05/28)!");
-            } else if (cvc.length < 3) {
-                alert("Hata: Geçersiz CVC kodu!");
-            } else {
-                // Her şey doğruysa başarılı mesajı ver
-                alert("ÖDEME BAŞARILI! " + document.getElementById('payTitle').innerText + " ürününüz başarıyla satın alındı.");
-                closeModal('payModal');
-            }
+        function openPay(title) { document.getElementById('payTitle').innerText = title; openModal('payModal'); }
+        function validatePay() {
+            const no = document.getElementById('cNo').value;
+            if(no.length === 16) { alert("Ödeme Başarılı! Ürün teslim edildi."); closeModal('payModal'); }
+            else { alert("Lütfen 16 haneli kart numaranızı girin."); }
         }
     </script>
 </body>
