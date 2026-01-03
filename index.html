@@ -3,129 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ttni Network | Neon Auth & Market</title>
+    <title>ttni Network | Market & Database</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
+        /* Tasarım Stilleri */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { 
             background: #080a0f url('https://w0.peakpx.com/wallpaper/596/1020/wallpaper-desktop-background-abstract-dark-blue.jpg') no-repeat center center fixed; 
             background-size: cover; color: white; min-height: 100vh;
         }
-
         nav { 
             background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(15px);
             padding: 15px 10%; display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0, 210, 255, 0.2);
         }
-
-        .auth-buttons .login-btn { 
-            color: white; background: none; border: 1px solid #00d2ff; padding: 7px 20px; 
-            border-radius: 20px; cursor: pointer; transition: 0.3s; box-shadow: 0 0 10px rgba(0, 210, 255, 0.2);
-        }
-        .login-btn:hover { background: #00d2ff; color: #000; box-shadow: 0 0 20px #00d2ff; }
+        .nav-links { display: flex; gap: 20px; }
+        .nav-btn { color: #888; background: none; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .nav-btn.active, .nav-btn:hover { color: #00d2ff; text-shadow: 0 0 10px #00d2ff; }
+        .login-btn { color: white; background: none; border: 1px solid #00d2ff; padding: 7px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+        .login-btn:hover { background: #00d2ff; color: #000; }
 
         header { text-align: center; padding: 60px 10%; }
         header h1 { font-size: 3.5rem; font-weight: 900; background: linear-gradient(to right, #00d2ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* Auth Form Tasarımı */
-        .auth-card { background: rgba(13, 17, 23, 0.95); border: 1px solid #00d2ff; padding: 2rem; border-radius: 20px; color: white; }
-        .neon-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(0,210,255,0.3); padding: 12px; border-radius: 10px; color: white; width: 100%; margin-bottom: 15px; outline: none; }
-        .neon-input:focus { border-color: #00d2ff; box-shadow: 0 0 10px rgba(0,210,255,0.5); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 30px; text-align: center; transition: 0.4s; }
+        .card:hover { border-color: #00d2ff; transform: translateY(-5px); }
+        .price { font-size: 1.4rem; color: #00ff88; font-weight: 600; margin: 15px 0; display: block; }
+        .card-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px; border-radius: 12px; cursor: pointer; width: 100%; }
+        .card-btn:hover { background: #00d2ff; color: #000; border-color: #00d2ff; }
+
+        .page { display: none; }
+        .page.active { display: block; }
     </style>
 </head>
 <body>
 
     <nav>
-        <div style="font-weight: 900; color: #00d2ff;">TTNİ NETWORK</div>
-        <div class="auth-buttons">
-            <button class="login-btn" id="authBtn" onclick="handleAuthClick()">Giriş Yap / Kayıt Ol</button>
+        <div class="nav-links">
+            <button class="nav-btn active" onclick="showPage('mc')">MINECRAFT</button>
+            <button class="nav-btn" onclick="showPage('valo')">VALORANT</button>
         </div>
+        <button class="login-btn" id="authBtn" onclick="handleAuth()">Giriş Yap / Kayıt Ol</button>
     </nav>
 
     <header>
-        <h1>TTNİ AUTH SİSTEMİ</h1>
-        <p id="welcomeMsg" style="color: #888; margin-top: 10px;">Veritabanına bağlanmaya hazır.</p>
+        <h1>TTNİ NETWORK</h1>
+        <p id="statusMsg" style="color: #666; margin-top: 10px;">Market ve Veritabanı Sistemi Aktif</p>
     </header>
 
-    <script type="module">
-        // Firebase Modülleri
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <div class="container">
+        <div id="mc" class="page active">
+            <div class="grid">
+                <div class="card"><h3>VIP</h3><span class="price">25 TL</span><button class="card-btn" onclick="buyItem('VIP', '25 TL')">SATIN AL</button></div>
+                <div class="card"><h3>MVIP</h3><span class="price">50 TL</span><button class="card-btn" onclick="buyItem('MVIP', '50 TL')">SATIN AL</button></div>
+            </div>
+        </div>
+        <div id="valo" class="page">
+            <div class="grid">
+                <div class="card"><h3>1000 VP</h3><span class="price">500 TL</span><button class="card-btn" onclick="buyItem('1000 VP', '500 TL')">SATIN AL</button></div>
+            </div>
+        </div>
+    </div>
 
-        // Firebase Yapılandırması
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // !!! BURAYI DÜZELT: Firebase Console'dan aldığın kendi bilgileri buraya yapıştır !!!
         const firebaseConfig = {
-            apiKey: "BURAYA_API_KEY_GELECEK",
-            authDomain: "ttni-auth.firebaseapp.com",
-            projectId: "ttni-auth",
-            storageBucket: "ttni-auth.appspot.com",
-            appId: "BURAYA_APP_ID_GELECEK"
+            apiKey: "BURAYA_KENDI_API_KEYINI_YAPISTIR",
+            authDomain: "ttni-network.firebaseapp.com",
+            projectId: "ttni-network",
+            storageBucket: "ttni-network.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123456789:web:abcdef"
         };
 
+        // Başlatma
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Kullanıcı Durum Takibi
+        // Hata ayıklama ve durum takibi
         onAuthStateChanged(auth, (user) => {
+            const btn = document.getElementById('authBtn');
+            const msg = document.getElementById('statusMsg');
             if (user) {
-                document.getElementById('authBtn').innerText = "Çıkış Yap";
-                document.getElementById('welcomeMsg').innerText = `Hoş geldin, ${user.email}!`;
+                btn.innerText = "Çıkış Yap";
+                msg.innerText = `Hoş geldin: ${user.email}`;
             } else {
-                document.getElementById('authBtn').innerText = "Giriş Yap / Kayıt Ol";
-                document.getElementById('welcomeMsg').innerText = "Lütfen giriş yapın.";
+                btn.innerText = "Giriş Yap / Kayıt Ol";
+                msg.innerText = "Market ve Veritabanı Sistemi Aktif";
             }
         });
 
-        // Giriş/Kayıt Panelini Aç
-        window.handleAuthClick = () => {
-            if (auth.currentUser) {
-                signOut(auth);
+        // Global Satın Alma Fonksiyonu
+        window.buyItem = async (item, price) => {
+            if (!auth.currentUser) {
+                Swal.fire('Hata', 'Önce giriş yapmalısınız!', 'error');
                 return;
             }
-
-            Swal.fire({
-                title: '<span style="color:#00d2ff">TTNİ Auth</span>',
-                html: `
-                    <div class="auth-card">
-                        <input type="email" id="email" class="neon-input" placeholder="E-posta">
-                        <input type="password" id="password" class="neon-input" placeholder="Şifre">
-                        <div style="display:flex; gap:10px; margin-top:10px;">
-                            <button onclick="window.processAuth('login')" class="login-btn" style="flex:1">GİRİŞ</button>
-                            <button onclick="window.processAuth('register')" class="login-btn" style="flex:1; border-color:#00ff88">KAYIT</button>
-                        </div>
-                    </div>
-                `,
-                showConfirmButton: false,
-                background: 'transparent',
-                color: '#fff'
-            });
-        };
-
-        // Veritabanı İşlemleri
-        window.processAuth = async (type) => {
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
-
             try {
-                if (type === 'register') {
-                    const res = await createUserWithEmailAndPassword(auth, email, pass);
-                    // Kullanıcıyı Firestore veritabanına kaydet
-                    await setDoc(doc(db, "users", res.user.uid), {
-                        email: email,
-                        role: "member",
-                        joinDate: new Date()
-                    });
-                    Swal.fire('Başarılı!', 'Hesabınız oluşturuldu ve veritabanına kaydedildi.', 'success');
-                } else {
-                    await signInWithEmailAndPassword(auth, email, pass);
-                    Swal.fire('Başarılı!', 'Giriş yapıldı.', 'success');
-                }
-            } catch (error) {
-                Swal.fire('Hata', error.message, 'error');
+                await addDoc(collection(db, "siparisler"), {
+                    user: auth.currentUser.email,
+                    item: item,
+                    price: price,
+                    time: serverTimestamp()
+                });
+                Swal.fire('Başarılı', `${item} siparişi veritabanına kaydedildi!`, 'success');
+            } catch (e) {
+                Swal.fire('Hata', 'Veritabanı bağlantısı kurulamadı!', 'error');
             }
         };
+
+        // Çıkış İşlemi
+        window.handleAuth = () => {
+            if (auth.currentUser) signOut(auth);
+            else Swal.fire('Bilgi', 'Giriş ekranı tasarımı için API Key gereklidir.', 'info');
+        };
+    </script>
+
+    <script>
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
     </script>
 </body>
 </html>
