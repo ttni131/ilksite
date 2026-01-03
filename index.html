@@ -8,112 +8,95 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-        
-        body { 
-            background: #000; color: white; min-height: 100vh; overflow-x: hidden;
-            display: flex; flex-direction: column; align-items: center;
-        }
-
+        body { background: #000; color: white; min-height: 100vh; overflow-x: hidden; display: flex; flex-direction: column; align-items: center; }
         #snow-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
-
+        
         nav { 
             background: rgba(0, 0, 0, 0.95); backdrop-filter: blur(15px); padding: 20px; 
             width: 100%; text-align: center; border-bottom: 2px solid #ff0000;
             position: relative; z-index: 10; display: flex; justify-content: space-around; align-items: center;
         }
-        
         .logo { font-weight: 900; color: #ff0000; letter-spacing: 4px; font-size: 1.6rem; text-shadow: 0 0 15px #ff0000; }
         .nav-link { color: white; text-decoration: none; font-weight: 600; cursor: pointer; border: 1px solid #ff0000; padding: 8px 20px; border-radius: 12px; transition: 0.3s; }
-        .nav-link:hover { background: #ff0000; color: white; box-shadow: 0 0 20px #ff0000; }
+        .nav-link:hover { background: #ff0000; box-shadow: 0 0 20px #ff0000; }
 
         .page { display: none; width: 100%; max-width: 1100px; padding: 40px 20px; position: relative; z-index: 10; flex-direction: column; align-items: center; }
         .active-page { display: flex; animation: fadeIn 0.5s; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* VİDEO OYNATICI TASARIMI */
-        .video-container {
-            width: 100%;
-            max-width: 700px;
-            aspect-ratio: 16 / 9;
-            background: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 3px solid #ff0000;
-            box-shadow: 0 0 50px rgba(255, 0, 0, 0.3);
-            position: relative;
+        /* Müzik Çalar Tasarımı */
+        .music-card {
+            background: rgba(20, 20, 20, 0.9); border: 2px solid #ff0000; 
+            padding: 40px; border-radius: 30px; text-align: center; width: 100%; max-width: 400px;
+            box-shadow: 0 0 50px rgba(255, 0, 0, 0.2);
+        }
+        .album-art {
+            width: 250px; height: 250px; margin: 0 auto 20px; border-radius: 20px;
+            background: url('https://i.ytimg.com/vi/7VnLg5p09p4/maxresdefault.jpg') no-repeat center;
+            background-size: cover; border: 3px solid #ff0000;
+        }
+        .play-btn { 
+            background: #ff0000; color: white; border: none; padding: 15px 40px; 
+            border-radius: 50px; cursor: pointer; font-weight: 900; font-size: 1.2rem;
+            transition: 0.3s; width: 100%; margin-top: 20px;
         }
 
-        iframe { width: 100%; height: 100%; border: none; }
-
-        .track-info { margin-top: 20px; text-align: center; }
-        .track-info h2 { color: #ff0000; font-size: 2rem; font-weight: 900; }
-
-        /* BAŞVURU SAYFASI (YAN YANA) */
+        /* Başvuru Bölümü (Yan Yana) */
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; width: 100%; margin-top: 50px; }
-        .card { 
-            background: rgba(20, 20, 20, 0.8); border: 1px solid #ff0000; 
-            border-radius: 25px; padding: 40px 10px; text-align: center; backdrop-filter: blur(15px); transition: 0.4s;
-        }
-        .card:hover { transform: translateY(-15px); box-shadow: 0 0 30px rgba(255, 0, 0, 0.4); }
-        .card-btn { 
-            background: #ff0000; color: white; border: none; padding: 12px; 
-            border-radius: 15px; cursor: pointer; width: 100%; font-weight: 900; transition: 0.3s;
-        }
-
-        .info-trigger { margin-top: 60px; cursor: pointer; color: #ff0000; font-weight: 900; text-decoration: underline; }
+        .card { background: rgba(20, 20, 20, 0.8); border: 1px solid #ff0000; border-radius: 25px; padding: 40px 10px; text-align: center; }
+        .apply-btn { background: #ff0000; color: white; border: none; padding: 10px; border-radius: 15px; width: 100%; cursor: pointer; font-weight: 900; }
     </style>
 </head>
 <body>
-
     <canvas id="snow-canvas"></canvas>
-
     <nav>
         <div class="logo">TTNİ NETWORK</div>
         <div>
-            <span class="nav-link" onclick="showPage('music-page')">Klip Dinle</span>
-            <span class="nav-link" onclick="showPage('apply-page')" style="margin-left: 15px; border-color: #00ff88;">Başvurular</span>
+            <span class="nav-link" onclick="showPage('music-page')">Müzik</span>
+            <span class="nav-link" onclick="showPage('apply-page')" style="margin-left: 15px;">Başvurular</span>
         </div>
     </nav>
 
     <div id="music-page" class="page active-page">
-        <div class="video-container">
-            <iframe id="deha-video" src="https://www.youtube.com/embed/7VnLg5p09p4?autoplay=1&mute=0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        <div class="music-card">
+            <div class="album-art"></div>
+            <h2 style="color: #ff0000;">DEHA INC.</h2>
+            <p>911 CARRERA</p>
+            <audio id="deha-audio" loop src="https://www.myinstants.com/media/sounds/deha-inc-911-carrera-official-music-video.mp3"></audio>
+            <button class="play-btn" onclick="toggleAudio()" id="btn-text">ŞARKIYI BAŞLAT</button>
         </div>
-        <div class="track-info">
-            <h2>DEHA INC.</h2>
-            <p>911 CARRERA (Official Music Video)</p>
-        </div>
-        <p style="margin-top:20px; color:#555;">Video yüklenmezse "Klip Dinle" butonuna tekrar bas.</p>
     </div>
 
     <div id="apply-page" class="page">
-        <h1 style="font-weight: 900; color: #00ff88; letter-spacing: 5px;">YETKİLİ ALIMLARI</h1>
+        <h1 style="color: #00ff88; margin-bottom: 30px;">YETKİLİ BAŞVURULARI</h1>
         <div class="grid">
-            <div class="card"><h2 style="color:#00ff88">HELPER</h2><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
-            <div class="card"><h2 style="color:#00d2ff">ACC</h2><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
-            <div class="card"><h2 style="color:#ffbc00">D. REHBER</h2><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
-            <div class="card"><h2 style="color:#ffffff">REHBER</h2><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
+            <div class="card"><h2 style="color:#00ff88">HELPER</h2><button class="apply-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
+            <div class="card"><h2 style="color:#00d2ff">ACC</h2><button class="apply-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
+            <div class="card"><h2 style="color:#ffbc00">D. REHBER</h2><button class="apply-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
+            <div class="card"><h2 style="color:#ffffff">REHBER</h2><button class="apply-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
         </div>
-        <p class="info-trigger" onclick="showTtniInfo()">TTNİ'Yİ ÖĞRENMEK İSTİYORSAN TIKLA</p>
     </div>
 
     <script>
+        const audio = document.getElementById('deha-audio');
+        const btn = document.getElementById('btn-text');
+
+        function toggleAudio() {
+            if (audio.paused) {
+                audio.play();
+                btn.innerText = "DURAKLAT";
+            } else {
+                audio.pause();
+                btn.innerText = "BAŞLAT";
+            }
+        }
+
         function showPage(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
             document.getElementById(pageId).classList.add('active-page');
         }
 
-        function showTtniInfo() {
-            Swal.fire({
-                title: 'TTNİ Profili',
-                background: '#0a0e14', color: '#fff',
-                html: '<b>Mete Türk (TTNİ)</b><br>Yaş: 11<br>IP: play.credos.qzz.io',
-                confirmButtonColor: '#ff0000'
-            });
-        }
-
-        // Kar Yağışı Animasyonu
+        // Kar Yağışı Kodları
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -122,27 +105,12 @@
         resize();
         class Particle {
             constructor() { this.init(); }
-            init() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 3 + 1;
-                this.speed = Math.random() * 1 + 0.5;
-            }
-            update() {
-                this.y += this.speed;
-                if (this.y > canvas.height) { this.y = -10; this.x = Math.random() * canvas.width; }
-            }
-            draw() {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
-            }
+            init() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.size = Math.random() * 3 + 1; this.speed = Math.random() * 1 + 0.5; }
+            update() { this.y += this.speed; if (this.y > canvas.height) this.y = -10; }
+            draw() { ctx.fillStyle = 'rgba(255, 255, 255, 0.7)'; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); }
         }
         for (let i = 0; i < 80; i++) particles.push(new Particle());
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
+        function animate() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); requestAnimationFrame(animate); }
         animate();
     </script>
 </body>
