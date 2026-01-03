@@ -49,8 +49,8 @@
         
         .logo { font-weight: 900; color: #00d2ff; letter-spacing: 4px; font-size: 1.6rem; text-shadow: 0 0 15px #00d2ff; }
 
-        /* Müzik Kategorisi Paneli */
-        .music-container {
+        /* Müzik Oynatıcı Paneli */
+        .music-player-top {
             position: relative;
             z-index: 10;
             background: rgba(255, 255, 255, 0.05);
@@ -58,14 +58,14 @@
             padding: 20px;
             border-radius: 25px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 350px;
-            margin-top: 30px;
+            width: 320px;
+            margin-top: 20px;
             text-align: center;
         }
 
         .album-art {
-            width: 100px; height: 100px;
-            margin: 0 auto 15px;
+            width: 80px; height: 80px;
+            margin: 0 auto 10px;
             border-radius: 50%;
             border: 3px solid #00d2ff;
             background: url('https://cdn-icons-png.flaticon.com/512/3844/3844724.png') no-repeat center;
@@ -76,51 +76,58 @@
         .playing .album-art { animation-play-state: running; }
         @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        .playlist {
-            margin-top: 15px;
-            text-align: left;
-            max-height: 150px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        .playlist-item {
-            padding: 10px;
-            margin: 5px 0;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: 0.3s;
-            border: 1px solid transparent;
-        }
-
-        .playlist-item:hover { background: rgba(0, 210, 255, 0.2); border-color: #00d2ff; }
-        .playlist-item.active { background: #00d2ff; color: #000; font-weight: 600; }
-
-        /* Başvuru Kartları */
-        .container { max-width: 1000px; margin: 40px auto; padding: 20px; position: relative; z-index: 10; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        /* Başvuru Kartları (Eski Yan Yana Hali) */
+        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; position: relative; z-index: 10; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
 
         .card { 
             background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 20px; padding: 20px; text-align: center; backdrop-filter: blur(10px); transition: 0.4s;
+            border-radius: 20px; padding: 25px; text-align: center; backdrop-filter: blur(10px); transition: 0.4s;
         }
-        .card:hover { transform: translateY(-5px); border-color: #00d2ff; }
+        .card:hover { transform: translateY(-8px); border-color: #00d2ff; background: rgba(0, 210, 255, 0.05); }
 
-        .role-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 10px; }
+        .role-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; }
         .card-btn { 
             background: transparent; color: white; border: 1px solid white; 
-            padding: 8px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600;
-            margin-top: 10px; transition: 0.3s;
+            padding: 10px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: 600;
+            margin-top: 15px; transition: 0.3s;
         }
         .card-btn:hover { background: white; color: black; }
 
+        /* Müzik Kategorisi Listesi */
+        .playlist-section {
+            width: 100%;
+            max-width: 1000px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .playlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .music-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .music-card:hover {
+            background: #00d2ff;
+            color: #000;
+            transform: scale(1.05);
+        }
+
         .info-trigger { text-align: center; margin: 30px 0; cursor: pointer; position: relative; z-index: 10; }
         .info-text { font-weight: 600; color: #00d2ff; text-decoration: underline; }
-
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-thumb { background: #00d2ff; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -132,20 +139,11 @@
         <div class="logo">TTNİ NETWORK</div>
     </nav>
 
-    <div class="music-container" id="player-container">
+    <div class="music-player-top" id="player-container">
         <div class="album-art"></div>
-        <h4 id="current-track-title" style="color:#00d2ff;">Bir Şarkı Seçin</h4>
-        
-        <audio id="main-audio"></audio>
-        
-        <div class="playlist" id="playlist">
-            <div class="playlist-item" onclick="playSong('Creative Minds', 'https://www.bensound.com/bensound-music/bensound-creativeminds.mp3', this)">🎵 Creative Minds</div>
-            <div class="playlist-item" onclick="playSong('Happy Rock', 'https://www.bensound.com/bensound-music/bensound-happyrock.mp3', this)">🎵 Happy Rock</div>
-            <div class="playlist-item" onclick="playSong('Energy', 'https://www.bensound.com/bensound-music/bensound-energy.mp3', this)">🎵 Energy</div>
-            <div class="playlist-item" onclick="playSong('Summer', 'https://www.bensound.com/bensound-music/bensound-summer.mp3', this)">🎵 Summer</div>
-        </div>
-        
-        <button class="card-btn" style="margin-top:15px; border-color:#00d2ff; color:#00d2ff;" onclick="toggleAudio()" id="master-play-btn">OYNAT / DURDUR</button>
+        <h4 id="current-track-title" style="color:#00d2ff; font-size: 0.9rem;">Bir Şarkı Seçin</h4>
+        <audio id="main-audio" loop></audio>
+        <button class="card-btn" style="margin-top:10px; border-color:#00d2ff; color:#00d2ff;" onclick="toggleAudio()">DURDUR / OYNAT</button>
     </div>
 
     <div class="container">
@@ -155,10 +153,20 @@
             <div class="card"><div class="role-title" style="color: #ffbc00;">D. REHBER</div><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
             <div class="card"><div class="role-title" style="color: #ffffff;">REHBER</div><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
         </div>
+    </div>
 
-        <div class="info-trigger" onclick="showTtniInfo()">
-            <p class="info-text">TTNİ'Yİ ÖĞRENMEK İSTİYORSAN TIKLA</p>
+    <div class="playlist-section">
+        <h3 style="text-align:center; color:#00d2ff; margin-bottom:10px;">MÜZİK KATEGORİSİ</h3>
+        <div class="playlist-grid">
+            <div class="music-card" onclick="playSong('911 Carrera', 'https://www.bensound.com/bensound-music/bensound-actionable.mp3')">🚗 911 Carrera</div>
+            <div class="music-card" onclick="playSong('Creative Minds', 'https://www.bensound.com/bensound-music/bensound-creativeminds.mp3')">🎵 Creative Minds</div>
+            <div class="music-card" onclick="playSong('Happy Rock', 'https://www.bensound.com/bensound-music/bensound-happyrock.mp3')">🎸 Happy Rock</div>
+            <div class="music-card" onclick="playSong('Energy Speed', 'https://www.bensound.com/bensound-music/bensound-energy.mp3')">⚡ Energy</div>
         </div>
+    </div>
+
+    <div class="info-trigger" onclick="showTtniInfo()">
+        <p class="info-text">TTNİ'Yİ ÖĞRENMEK İSTİYORSAN TIKLA</p>
     </div>
 
     <script>
@@ -166,28 +174,19 @@
         const playerContainer = document.getElementById('player-container');
         const trackTitle = document.getElementById('current-track-title');
 
-        function playSong(title, url, element) {
+        function playSong(title, url) {
             audio.src = url;
             audio.play();
-            trackTitle.innerText = title;
+            trackTitle.innerText = "Çalıyor: " + title;
             playerContainer.classList.add('playing');
-            
-            // Aktif şarkı efektini değiştir
-            document.querySelectorAll('.playlist-item').forEach(item => item.classList.remove('active'));
-            element.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' }); // Şarkı seçince yukarı kaydırır
         }
 
         function toggleAudio() {
             if (audio.paused) {
-                if (audio.src) {
-                    audio.play();
-                    playerContainer.classList.add('playing');
-                } else {
-                    Swal.fire({ icon: 'info', title: 'Önce şarkı seç!', background: '#0a0e14', color: '#fff' });
-                }
+                if (audio.src) { audio.play(); playerContainer.classList.add('playing'); }
             } else {
-                audio.pause();
-                playerContainer.classList.remove('playing');
+                audio.pause(); playerContainer.classList.remove('playing');
             }
         }
 
@@ -195,7 +194,7 @@
             Swal.fire({
                 title: 'TTNİ Profili',
                 background: '#0a0e14', color: '#fff',
-                html: '<div style="text-align:left"><b>Yaş:</b> 11<br><b>Ad:</b> Mete Türk<br><b>Sunucu:</b> play.credos.qzz.io</div>',
+                html: '<b>Mete Türk (TTNİ)</b><br>Yaş: 11<br>IP: play.credos.qzz.io',
                 confirmButtonColor: '#00d2ff'
             });
         }
