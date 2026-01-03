@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTNİ Network | Yetkili Başvuru</title>
+    <title>TTNİ Network | Müzik & Başvuru</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
@@ -14,120 +14,113 @@
             color: white; 
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Canlı Kar Yağışı Arka Planı */
+        /* Canlı Kar Yağışı */
         #snow-canvas {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 2;
         }
 
-        /* Arka Plan Görseli */
         .bg-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://w0.peakpx.com/wallpaper/596/1020/wallpaper-desktop-background-abstract-dark-blue.jpg') no-repeat center center fixed;
             background-size: cover;
-            opacity: 0.6;
+            opacity: 0.4;
             z-index: 1;
         }
 
         nav { 
             background: rgba(0, 0, 0, 0.8); 
             backdrop-filter: blur(10px);
-            padding: 20px 10%; 
-            display: flex; 
-            justify-content: center; 
+            padding: 20px; 
+            width: 100%;
+            text-align: center;
             border-bottom: 1px solid rgba(0, 210, 255, 0.3);
             position: relative;
             z-index: 10;
         }
         
-        .logo { 
-            font-weight: 900; 
-            color: #00d2ff; 
-            letter-spacing: 4px; 
-            font-size: 1.6rem;
-            text-shadow: 0 0 15px #00d2ff;
+        .logo { font-weight: 900; color: #00d2ff; letter-spacing: 4px; font-size: 1.6rem; text-shadow: 0 0 15px #00d2ff; }
+
+        /* Müzik Kategorisi Paneli */
+        .music-container {
+            position: relative;
+            z-index: 10;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 350px;
+            margin-top: 30px;
+            text-align: center;
         }
 
-        header { text-align: center; padding: 60px 10% 20px; position: relative; z-index: 10; }
-        header h1 { 
-            font-size: 3.5rem; 
-            font-weight: 900; 
-            background: linear-gradient(to bottom, #ffffff, #00d2ff); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
-            letter-spacing: 5px;
+        .album-art {
+            width: 100px; height: 100px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            border: 3px solid #00d2ff;
+            background: url('https://cdn-icons-png.flaticon.com/512/3844/3844724.png') no-repeat center;
+            background-size: cover;
+            animation: rotate 10s linear infinite;
+            animation-play-state: paused;
+        }
+        .playing .album-art { animation-play-state: running; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .playlist {
+            margin-top: 15px;
+            text-align: left;
+            max-height: 150px;
+            overflow-y: auto;
+            padding-right: 5px;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 40px 20px; position: relative; z-index: 10; }
-
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); 
-            gap: 20px; 
+        .playlist-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.3s;
+            border: 1px solid transparent;
         }
+
+        .playlist-item:hover { background: rgba(0, 210, 255, 0.2); border-color: #00d2ff; }
+        .playlist-item.active { background: #00d2ff; color: #000; font-weight: 600; }
+
+        /* Başvuru Kartları */
+        .container { max-width: 1000px; margin: 40px auto; padding: 20px; position: relative; z-index: 10; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
 
         .card { 
-            background: rgba(255, 255, 255, 0.05); 
-            border: 1px solid rgba(255, 255, 255, 0.1); 
-            border-radius: 20px; 
-            padding: 30px; 
-            text-align: center; 
-            backdrop-filter: blur(15px);
-            transition: 0.4s;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); 
+            border-radius: 20px; padding: 20px; text-align: center; backdrop-filter: blur(10px); transition: 0.4s;
         }
+        .card:hover { transform: translateY(-5px); border-color: #00d2ff; }
 
-        .card:hover { 
-            transform: translateY(-10px); 
-            border-color: #00d2ff;
-            background: rgba(0, 210, 255, 0.05);
-        }
-
-        .role-title { font-size: 1.6rem; font-weight: 900; margin-bottom: 10px; }
+        .role-title { font-size: 1.3rem; font-weight: 900; margin-bottom: 10px; }
         .card-btn { 
             background: transparent; color: white; border: 1px solid white; 
-            padding: 10px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600;
-            margin-top: 20px; transition: 0.3s;
+            padding: 8px; border-radius: 10px; cursor: pointer; width: 100%; font-weight: 600;
+            margin-top: 10px; transition: 0.3s;
         }
         .card-btn:hover { background: white; color: black; }
 
-        /* Bilgi Bölümü */
-        .info-trigger {
-            text-align: center;
-            margin-top: 50px;
-            padding: 20px;
-            cursor: pointer;
-            position: relative;
-            z-index: 10;
-        }
+        .info-trigger { text-align: center; margin: 30px 0; cursor: pointer; position: relative; z-index: 10; }
+        .info-text { font-weight: 600; color: #00d2ff; text-decoration: underline; }
 
-        .info-text {
-            font-weight: 600;
-            color: #00d2ff;
-            text-decoration: underline;
-            letter-spacing: 1px;
-            transition: 0.3s;
-        }
-
-        .info-text:hover { color: #ffffff; text-shadow: 0 0 10px #00d2ff; }
-
-        .footer-logo {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 6vw;
-            font-weight: 900;
-            color: rgba(255, 255, 255, 0.03);
-            text-transform: uppercase;
-            pointer-events: none;
-        }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-thumb { background: #00d2ff; border-radius: 10px; }
     </style>
 </head>
 <body>
@@ -139,32 +132,28 @@
         <div class="logo">TTNİ NETWORK</div>
     </nav>
 
-    <header>
-        <h1>BAŞVURU PANELİ</h1>
-    </header>
+    <div class="music-container" id="player-container">
+        <div class="album-art"></div>
+        <h4 id="current-track-title" style="color:#00d2ff;">Bir Şarkı Seçin</h4>
+        
+        <audio id="main-audio"></audio>
+        
+        <div class="playlist" id="playlist">
+            <div class="playlist-item" onclick="playSong('Creative Minds', 'https://www.bensound.com/bensound-music/bensound-creativeminds.mp3', this)">🎵 Creative Minds</div>
+            <div class="playlist-item" onclick="playSong('Happy Rock', 'https://www.bensound.com/bensound-music/bensound-happyrock.mp3', this)">🎵 Happy Rock</div>
+            <div class="playlist-item" onclick="playSong('Energy', 'https://www.bensound.com/bensound-music/bensound-energy.mp3', this)">🎵 Energy</div>
+            <div class="playlist-item" onclick="playSong('Summer', 'https://www.bensound.com/bensound-music/bensound-summer.mp3', this)">🎵 Summer</div>
+        </div>
+        
+        <button class="card-btn" style="margin-top:15px; border-color:#00d2ff; color:#00d2ff;" onclick="toggleAudio()" id="master-play-btn">OYNAT / DURDUR</button>
+    </div>
 
     <div class="container">
         <div class="grid">
-            <div class="card">
-                <div class="role-title" style="color: #00ff88;">HELPER</div>
-                <p>Oyuncu desteği ve düzen.</p>
-                <button class="card-btn" onclick="goToDiscord()">BAŞVUR</button>
-            </div>
-            <div class="card">
-                <div class="role-title" style="color: #00d2ff;">ACC</div>
-                <p>Hile ve kural denetimi.</p>
-                <button class="card-btn" onclick="goToDiscord()">BAŞVUR</button>
-            </div>
-            <div class="card">
-                <div class="role-title" style="color: #ffbc00;">D. REHBER</div>
-                <p>Eğitimdeki yetkili adayı.</p>
-                <button class="card-btn" onclick="goToDiscord()">BAŞVUR</button>
-            </div>
-            <div class="card">
-                <div class="role-title" style="color: #ffffff;">REHBER</div>
-                <p>Deneyimli topluluk rehberi.</p>
-                <button class="card-btn" onclick="goToDiscord()">BAŞVUR</button>
-            </div>
+            <div class="card"><div class="role-title" style="color: #00ff88;">HELPER</div><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
+            <div class="card"><div class="role-title" style="color: #00d2ff;">ACC</div><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
+            <div class="card"><div class="role-title" style="color: #ffbc00;">D. REHBER</div><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
+            <div class="card"><div class="role-title" style="color: #ffffff;">REHBER</div><button class="card-btn" onclick="window.open('https://discord.gg/2WeVDbP8')">BAŞVUR</button></div>
         </div>
 
         <div class="info-trigger" onclick="showTtniInfo()">
@@ -172,84 +161,73 @@
         </div>
     </div>
 
-    <div class="footer-logo">TTNI</div>
-
     <script>
-        // Discord Yönlendirme
-        function goToDiscord() {
-            window.open("https://discord.gg/2WeVDbP8", "_blank");
+        const audio = document.getElementById('main-audio');
+        const playerContainer = document.getElementById('player-container');
+        const trackTitle = document.getElementById('current-track-title');
+
+        function playSong(title, url, element) {
+            audio.src = url;
+            audio.play();
+            trackTitle.innerText = title;
+            playerContainer.classList.add('playing');
+            
+            // Aktif şarkı efektini değiştir
+            document.querySelectorAll('.playlist-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
         }
 
-        // TTNİ Bilgi Penceresi
+        function toggleAudio() {
+            if (audio.paused) {
+                if (audio.src) {
+                    audio.play();
+                    playerContainer.classList.add('playing');
+                } else {
+                    Swal.fire({ icon: 'info', title: 'Önce şarkı seç!', background: '#0a0e14', color: '#fff' });
+                }
+            } else {
+                audio.pause();
+                playerContainer.classList.remove('playing');
+            }
+        }
+
         function showTtniInfo() {
             Swal.fire({
-                title: 'TTNİ Bilgileri',
-                background: '#0a0e14',
-                color: '#fff',
-                html: `
-                    <div style="text-align: left; padding: 10px; border-left: 3px solid #00d2ff;">
-                        <p><b>Yaş:</b> 11</p>
-                        <p><b>Ad:</b> TTNİ = Mete Türk</p>
-                        <p><b>Hakkında:</b> Arkadaşlarımı çok severim!</p>
-                        <p style="margin-top:15px; color:#00ff88;"><b>Sunucu IP:</b> play.credos.qzz.io</p>
-                    </div>
-                `,
-                confirmButtonText: 'Anlaşıldı',
+                title: 'TTNİ Profili',
+                background: '#0a0e14', color: '#fff',
+                html: '<div style="text-align:left"><b>Yaş:</b> 11<br><b>Ad:</b> Mete Türk<br><b>Sunucu:</b> play.credos.qzz.io</div>',
                 confirmButtonColor: '#00d2ff'
             });
         }
 
-        // --- CANLI KAR YAĞIŞI SİSTEMİ ---
+        // Kar Yağışı
         const canvas = document.getElementById('snow-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resize);
         resize();
-
         class Particle {
-            constructor() {
-                this.init();
-            }
+            constructor() { this.init(); }
             init() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 3 + 1;
                 this.speed = Math.random() * 1 + 0.5;
-                this.velY = this.speed;
-                this.velX = Math.random() * 0.5 - 0.25;
             }
             update() {
-                this.y += this.velY;
-                this.x += this.velX;
-                if (this.y > canvas.height) {
-                    this.y = -10;
-                    this.x = Math.random() * canvas.width;
-                }
+                this.y += this.speed;
+                if (this.y > canvas.height) { this.y = -10; this.x = Math.random() * canvas.width; }
             }
             draw() {
-                ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
             }
         }
-
-        for (let i = 0; i < 100; i++) {
-            particles.push(new Particle());
-        }
-
+        for (let i = 0; i < 80; i++) particles.push(new Particle());
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                p.draw();
-            });
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
         }
         animate();
