@@ -3,145 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TTNetwork | Veritabanı Bağlantılı</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>ttni Network | Neon Market & Database</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-        .glass-effect { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        /* DARK NEON ÖZEL STİLLER */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        
+        body { 
+            background: #080a0f url('https://w0.peakpx.com/wallpaper/596/1020/wallpaper-desktop-background-abstract-dark-blue.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            color: white; 
+            min-height: 100vh;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Navigasyon Çubuğu */
+        nav { 
+            background: rgba(0, 0, 0, 0.8); 
+            backdrop-filter: blur(15px);
+            padding: 15px 10%; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.2);
+        }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-btn { color: #888; text-decoration: none; font-size: 0.9rem; font-weight: 600; cursor: pointer; background: none; border: none; transition: 0.3s; }
+        .nav-btn.active, .nav-btn:hover { color: #00d2ff; text-shadow: 0 0 8px #00d2ff; }
+        
+        .auth-buttons { display: flex; gap: 15px; }
+        .login-btn { color: white; background: none; border: 1px solid #00d2ff; padding: 7px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+        .login-btn:hover { background: rgba(0, 210, 255, 0.1); }
+
+        /* Başlık Alanı */
+        header { text-align: center; padding: 60px 10% 30px; }
+        header h1 { font-size: 3.5rem; font-weight: 900; letter-spacing: 5px; background: linear-gradient(to right, #00d2ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* Kart Düzeni */
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .section-header { font-size: 1.4rem; font-weight: 600; margin: 40px 0 20px; color: #00d2ff; display: flex; align-items: center; gap: 15px; text-transform: uppercase; }
+        .section-header::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to right, rgba(0, 210, 255, 0.5), transparent); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        
+        .card { 
+            background: rgba(255, 255, 255, 0.03); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px; 
+            padding: 30px; 
+            text-align: center;
+            transition: 0.4s;
+            backdrop-filter: blur(5px);
+        }
+        .card:hover { transform: translateY(-10px); border-color: #00d2ff; box-shadow: 0 0 20px rgba(0, 210, 255, 0.2); background: rgba(0, 210, 255, 0.02); }
+
+        .card h3 { font-size: 1.6rem; margin-bottom: 10px; color: #fff; }
+        .card .price { font-size: 1.4rem; color: #00ff88; font-weight: 600; margin-bottom: 25px; display: block; }
+        .card-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 12px; border-radius: 12px; font-weight: 600; cursor: pointer; width: 100%; transition: 0.3s; }
+        .card-btn:hover { background: #00d2ff; color: #000; border-color: #00d2ff; box-shadow: 0 0 15px #00d2ff; }
+
+        /* Arka Plan Büyük Yazı */
+        .bg-text-footer { text-align: center; font-size: 9vw; font-weight: 900; color: rgba(255, 255, 255, 0.01); pointer-events: none; margin-top: 50px; text-transform: uppercase; }
+
+        /* Sayfa Gösterimi */
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.5s ease; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
-<body class="bg-slate-50">
+<body>
 
-    <nav class="sticky top-0 z-50 glass-effect border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white">
-                    <i class="fas fa-network-wired"></i>
-                </div>
-                <span class="text-2xl font-bold text-blue-900 uppercase tracking-tighter">TTNetwork</span>
-            </div>
-            <div class="hidden md:flex space-x-6 font-medium">
-                <a href="#home" class="hover:text-blue-600">Ana Sayfa</a>
-                <a href="#pricing" class="hover:text-blue-600">Paketler</a>
-                <a href="#contact" class="bg-blue-600 text-white px-4 py-2 rounded-lg">Hemen Başvur</a>
-            </div>
+    <nav>
+        <div class="nav-links">
+            <button class="nav-btn active" id="btnMc" onclick="showPage('mc')">MINECRAFT</button>
+            <button class="nav-btn" id="btnValo" onclick="showPage('valo')">VALORANT</button>
+            <button class="nav-btn" id="btnRobux" onclick="showPage('robux')">ROBLOX</button>
+        </div>
+        <div class="auth-buttons">
+            <button class="login-btn" onclick="openAuth()">Giriş Yap / Kayıt Ol</button>
         </div>
     </nav>
 
-    <header id="home" class="py-20 bg-white">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
-            <div class="md:w-1/2">
-                <h1 class="text-5xl font-extrabold text-slate-900 mb-6 leading-tight">Işık Hızında <span class="text-blue-600">Fiber</span> İnternet</h1>
-                <p class="text-lg text-slate-600 mb-8">Türkiye'nin en stabil altyapısı ile TTNetwork her an yanınızda. Hemen paketinizi seçin, farkı hissedin.</p>
-                <a href="#pricing" class="bg-blue-600 text-white px-8 py-4 rounded-xl font-bold shadow-lg hover:bg-blue-700 transition">Paketleri İncele</a>
-            </div>
-            <div class="md:w-1/2">
-                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" class="rounded-3xl shadow-2xl" alt="Server">
-            </div>
-        </div>
+    <header>
+        <h1>TTNİ NETWORK</h1>
+        <p style="color: #666;">Modern Oyun Deneyimi & Market</p>
     </header>
 
-    <section id="pricing" class="py-24 bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12">Size Uygun Paketi Seçin</h2>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm hover:shadow-xl transition">
-                    <h3 class="text-xl font-bold mb-2">Başlangıç</h3>
-                    <div class="text-3xl font-bold text-blue-600 mb-6">299₺ <span class="text-sm text-slate-400">/ay</span></div>
-                    <ul class="space-y-3 text-slate-600 mb-8">
-                        <li><i class="fas fa-check text-green-500 mr-2"></i> 50 Mbps Fiber</li>
-                        <li><i class="fas fa-check text-green-500 mr-2"></i> Sınırsız Kota</li>
-                    </ul>
-                    <a href="#contact" class="block text-center w-full py-3 border-2 border-blue-600 text-blue-600 font-bold rounded-xl hover:bg-blue-600 hover:text-white transition">Seç</a>
+    <div class="container">
+        <div id="mc" class="page active">
+            <div class="section-header">Sunucu Rankları</div>
+            <div class="grid">
+                <div class="card"><h3>VIP</h3><span class="price">25 TL</span><button class="card-btn" onclick="buyItem('Minecraft', 'VIP', '25 TL')">SATIN AL</button></div>
+                <div class="card"><h3>MVIP</h3><span class="price">50 TL</span><button class="card-btn" onclick="buyItem('Minecraft', 'MVIP', '50 TL')">SATIN AL</button></div>
+                <div class="card" style="border-color: rgba(255, 188, 0, 0.3);">
+                    <h3>HELPER</h3><span class="price" style="color:#ffbc00;">45 TL</span>
+                    <button class="card-btn" style="border-color:#ffbc00; color:#ffbc00;" onclick="applyForHelper()">BAŞVURU</button>
                 </div>
-                </div>
-        </div>
-    </section>
+            </div>
 
-    <section id="contact" class="py-20 bg-white">
-        <div class="max-w-2xl mx-auto px-4 bg-slate-50 p-10 rounded-3xl border border-slate-200 shadow-2xl">
-            <h2 class="text-3xl font-bold text-center mb-8 italic">TTNetwork Başvuru Formu</h2>
-            <form id="applicationForm" class="space-y-6">
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Adınız Soyadınız</label>
-                    <input type="text" id="fullName" required class="w-full p-4 rounded-xl border-none ring-1 ring-slate-300 focus:ring-2 focus:ring-blue-600 outline-none shadow-sm" placeholder="Örn: Ahmet Yılmaz">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">Telefon Numaranız</label>
-                    <input type="tel" id="phoneNumber" required class="w-full p-4 rounded-xl border-none ring-1 ring-slate-300 focus:ring-2 focus:ring-blue-600 outline-none shadow-sm" placeholder="05xx xxx xx xx">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold mb-2">İstediğiniz Paket</label>
-                    <select id="selectedPackage" class="w-full p-4 rounded-xl border-none ring-1 ring-slate-300 focus:ring-2 focus:ring-blue-600 outline-none shadow-sm">
-                        <option>Başlangıç (50 Mbps)</option>
-                        <option>Pro Fiber (200 Mbps)</option>
-                        <option>Gamer/Kurumsal (1000 Mbps)</option>
-                    </select>
-                </div>
-                <button type="submit" class="w-full bg-blue-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all">
-                    BAŞVURUYU TAMAMLA <i class="fas fa-paper-plane ml-2"></i>
-                </button>
-            </form>
+            <div class="section-header">Ekonomi Paketleri</div>
+            <div class="grid">
+                <div class="card"><h3>50M MONEY</h3><span class="price">40 TL</span><button class="card-btn" onclick="buyItem('Minecraft', '50M Money', '40 TL')">SATIN AL</button></div>
+                <div class="card"><h3>100M MONEY</h3><span class="price">60 TL</span><button class="card-btn" onclick="buyItem('Minecraft', '100M Money', '60 TL')">SATIN AL</button></div>
+            </div>
         </div>
-    </section>
 
-    <footer class="py-10 text-center text-slate-500 border-t border-slate-200">
-        <p>&copy; 2026 TTNetwork. Tüm hakları saklıdır.</p>
-    </footer>
+        <div id="valo" class="page">
+            <div class="section-header">Valorant VP</div>
+            <div class="grid">
+                <div class="card"><h3>500 VP</h3><span class="price">200 TL</span><button class="card-btn" onclick="buyItem('Valorant', '500 VP', '200 TL')">SATIN AL</button></div>
+                <div class="card"><h3>1000 VP</h3><span class="price">500 TL</span><button class="card-btn" onclick="buyItem('Valorant', '1000 VP', '500 TL')">SATIN AL</button></div>
+            </div>
+        </div>
+
+        <div id="robux" class="page">
+            <div class="section-header">Robux Paketleri</div>
+            <div class="grid">
+                <div class="card"><h3>100 ROBUX</h3><span class="price">50 TL</span><button class="card-btn" onclick="buyItem('Roblox', '100 Robux', '50 TL')">SATIN AL</button></div>
+                <div class="card"><h3>500 ROBUX</h3><span class="price">250 TL</span><button class="card-btn" onclick="buyItem('Roblox', '500 Robux', '250 TL')">SATIN AL</button></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-text-footer">TTNI NETWORK</div>
 
     <script type="module">
-        // Firebase Modüllerini Import Et
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // --- BURAYA KENDİ FIREBASE PROJE BİLGİLERİNİ GELECEK ---
-        // Firebase Console > Proje Ayarları > Web Uygulaması Ekle kısmından alabilirsin.
+        // FIREBASE CONFIG (Kendi bilgilerini buraya yapıştır)
         const firebaseConfig = {
-            apiKey: "AIzaSy...",
-            authDomain: "ttnetwork-projeniz.firebaseapp.com",
-            projectId: "ttnetwork-projeniz",
-            storageBucket: "ttnetwork-projeniz.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef"
+            apiKey: "API_KEY_BURAYA",
+            projectId: "PROJE_ID_BURAYA",
+            appId: "APP_ID_BURAYA"
         };
 
-        // Firebase Başlat
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
 
-        // Form Gönderme İşlemi
-        const form = document.getElementById('applicationForm');
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
+        // Global fonksiyonlar
+        window.buyItem = async (game, item, price) => {
+            const { value: username } = await Swal.fire({
+                title: 'Kullanıcı Adınız',
+                input: 'text',
+                inputPlaceholder: 'Oyun içi adınızı girin...',
+                showCancelButton: true,
+                background: '#0d1117',
+                color: '#fff'
+            });
 
-            const data = {
-                adSoyad: document.getElementById('fullName').value,
-                telefon: document.getElementById('phoneNumber').value,
-                paket: document.getElementById('selectedPackage').value,
-                tarih: serverTimestamp()
-            };
-
-            try {
-                // Veritabanına "basvurular" adında bir tabloya (koleksiyona) kaydet
-                await addDoc(collection(db, "basvurular"), data);
-                
-                Swal.fire({
-                    title: 'Başarılı!',
-                    text: 'Başvurunuz veritabanına kaydedildi. Sizinle iletişime geçeceğiz.',
-                    icon: 'success',
-                    confirmButtonText: 'Tamam',
-                    confirmButtonColor: '#2563eb'
-                });
-                
-                form.reset();
-            } catch (error) {
-                console.error("Hata:", error);
-                Swal.fire('Hata!', 'Veri kaydedilemedi: ' + error.message, 'error');
+            if (username) {
+                try {
+                    await addDoc(collection(db, "siparisler"), {
+                        oyun: game,
+                        urun: item,
+                        fiyat: price,
+                        kullanici: username,
+                        tarih: serverTimestamp()
+                    });
+                    Swal.fire('Başarılı!', 'Siparişiniz veritabanına iletildi.', 'success');
+                } catch (e) {
+                    Swal.fire('Hata', 'Bağlantı hatası oluştu.', 'error');
+                }
             }
-        });
+        };
+
+        window.applyForHelper = async () => {
+            const { value: formValues } = await Swal.fire({
+                title: 'Helper Başvuru Formu',
+                html:
+                    '<input id="swal-input1" class="swal2-input" placeholder="Discord Tag">' +
+                    '<input id="swal-input2" class="swal2-input" placeholder="Yaşınız">',
+                focusConfirm: false,
+                background: '#0d1117',
+                color: '#fff',
+                preConfirm: () => {
+                    return [
+                        document.getElementById('swal-input1').value,
+                        document.getElementById('swal-input2').value
+                    ]
+                }
+            });
+
+            if (formValues) {
+                await addDoc(collection(db, "basvurular"), {
+                    discord: formValues[0],
+                    yas: formValues[1],
+                    tip: "Helper",
+                    tarih: serverTimestamp()
+                });
+                Swal.fire('Gönderildi!', 'Başvurunuz alındı.', 'success');
+            }
+        };
+    </script>
+
+    <script>
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            if(event) event.target.classList.add('active');
+        }
+
+        function openAuth() {
+            Swal.fire({
+                title: 'TTNİ Auth',
+                text: 'Giriş ve Kayıt sistemi veritabanına bağlanıyor...',
+                icon: 'info',
+                background: '#0d1117',
+                color: '#fff'
+            });
+        }
     </script>
 </body>
 </html>
