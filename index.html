@@ -3,136 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ttni Network | Market & Database</title>
+    <title>ttni Network | Neon Market & Ekip</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600;900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
-        /* Tasarım Stilleri */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
         body { 
             background: #080a0f url('https://w0.peakpx.com/wallpaper/596/1020/wallpaper-desktop-background-abstract-dark-blue.jpg') no-repeat center center fixed; 
-            background-size: cover; color: white; min-height: 100vh;
+            background-size: cover; color: white; min-height: 100vh; overflow-x: hidden;
         }
+
+        /* Navigasyon */
         nav { 
             background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(15px);
             padding: 15px 10%; display: flex; justify-content: space-between; align-items: center; 
             position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid rgba(0, 210, 255, 0.2);
         }
         .nav-links { display: flex; gap: 20px; }
-        .nav-btn { color: #888; background: none; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; }
+        .nav-btn { color: #888; background: none; border: none; cursor: pointer; font-weight: 600; transition: 0.3s; font-size: 0.9rem; }
         .nav-btn.active, .nav-btn:hover { color: #00d2ff; text-shadow: 0 0 10px #00d2ff; }
+        
         .login-btn { color: white; background: none; border: 1px solid #00d2ff; padding: 7px 20px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
-        .login-btn:hover { background: #00d2ff; color: #000; }
+        .login-btn:hover { background: #00d2ff; color: #000; box-shadow: 0 0 15px #00d2ff; }
 
-        header { text-align: center; padding: 60px 10%; }
-        header h1 { font-size: 3.5rem; font-weight: 900; background: linear-gradient(to right, #00d2ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        header { text-align: center; padding: 50px 10% 20px; }
+        header h1 { font-size: 3.5rem; font-weight: 900; background: linear-gradient(to right, #00d2ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 3px; }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 30px; text-align: center; transition: 0.4s; }
-        .card:hover { border-color: #00d2ff; transform: translateY(-5px); }
-        .price { font-size: 1.4rem; color: #00ff88; font-weight: 600; margin: 15px 0; display: block; }
-        .card-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.3); padding: 10px; border-radius: 12px; cursor: pointer; width: 100%; }
-        .card-btn:hover { background: #00d2ff; color: #000; border-color: #00d2ff; }
+        .section-header { font-size: 1.3rem; font-weight: 600; margin: 30px 0 20px; color: #00d2ff; display: flex; align-items: center; gap: 15px; text-transform: uppercase; }
+        .section-header::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to right, rgba(0, 210, 255, 0.3), transparent); }
 
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 30px; text-align: center; transition: 0.4s; backdrop-filter: blur(5px); }
+        .card:hover { border-color: #00d2ff; transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+        
+        .price { font-size: 1.5rem; color: #00ff88; font-weight: 900; margin: 20px 0; display: block; }
+        .card-btn { background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); padding: 12px; border-radius: 12px; cursor: pointer; width: 100%; font-weight: 600; transition: 0.3s; }
+        .card-btn:hover { background: #00d2ff; color: #000; border-color: #00d2ff; box-shadow: 0 0 15px #00d2ff; }
+
+        /* Sayfa Yönetimi */
         .page { display: none; }
-        .page.active { display: block; }
+        .page.active { display: block; animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .bg-text-footer { text-align: center; font-size: 8vw; font-weight: 900; color: rgba(255, 255, 255, 0.01); pointer-events: none; margin-top: 50px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
     <nav>
         <div class="nav-links">
-            <button class="nav-btn active" onclick="showPage('mc')">MINECRAFT</button>
-            <button class="nav-btn" onclick="showPage('valo')">VALORANT</button>
+            <button class="nav-btn active" onclick="showPage('mc', this)">MINECRAFT</button>
+            <button class="nav-btn" onclick="showPage('valo', this)">VALORANT</button>
+            <button class="nav-btn" onclick="showPage('ekip', this)">EKİP / YÖNETİM</button>
         </div>
-        <button class="login-btn" id="authBtn" onclick="handleAuth()">Giriş Yap / Kayıt Ol</button>
+        <button class="login-btn" id="authBtn" onclick="openAuth()">Giriş Yap</button>
     </nav>
 
     <header>
         <h1>TTNİ NETWORK</h1>
-        <p id="statusMsg" style="color: #666; margin-top: 10px;">Market ve Veritabanı Sistemi Aktif</p>
+        <p id="userStatus" style="color: #666; font-size: 0.9rem;">Sunucu Marketine Hoş Geldiniz</p>
     </header>
 
     <div class="container">
         <div id="mc" class="page active">
+            <div class="section-header">Ranklar</div>
             <div class="grid">
-                <div class="card"><h3>VIP</h3><span class="price">25 TL</span><button class="card-btn" onclick="buyItem('VIP', '25 TL')">SATIN AL</button></div>
-                <div class="card"><h3>MVIP</h3><span class="price">50 TL</span><button class="card-btn" onclick="buyItem('MVIP', '50 TL')">SATIN AL</button></div>
+                <div class="card"><h3>VIP</h3><span class="price">25 TL</span><button class="card-btn" onclick="order('MC-VIP', '25 TL')">SATIN AL</button></div>
+                <div class="card"><h3>MVIP</h3><span class="price">50 TL</span><button class="card-btn" onclick="order('MC-MVIP', '50 TL')">SATIN AL</button></div>
+            </div>
+
+            <div class="section-header">Eski Para Paketleri</div>
+            <div class="grid">
+                <div class="card"><h3>50M PARA</h3><span class="price">40 TL</span><button class="card-btn" onclick="order('50M Money', '40 TL')">SATIN AL</button></div>
+                <div class="card"><h3>100M PARA</h3><span class="price">60 TL</span><button class="card-btn" onclick="order('100M Money', '60 TL')">SATIN AL</button></div>
+                <div class="card"><h3>1B PARA</h3><span class="price">150 TL</span><button class="card-btn" onclick="order('1B Money', '150 TL')">SATIN AL</button></div>
             </div>
         </div>
+
         <div id="valo" class="page">
+            <div class="section-header">VP Paketleri</div>
             <div class="grid">
-                <div class="card"><h3>1000 VP</h3><span class="price">500 TL</span><button class="card-btn" onclick="buyItem('1000 VP', '500 TL')">SATIN AL</button></div>
+                <div class="card"><h3>1000 VP</h3><span class="price">500 TL</span><button class="card-btn" onclick="order('1000 VP', '500 TL')">SATIN AL</button></div>
+                <div class="card"><h3>11000 VP</h3><span class="price">3000 TL</span><button class="card-btn" onclick="order('11000 VP', '3000 TL')">SATIN AL</button></div>
+            </div>
+        </div>
+
+        <div id="ekip" class="page">
+            <div class="section-header">Yönetim Başvuruları</div>
+            <div class="grid">
+                <div class="card" style="border-color: #ffbc00;">
+                    <h3 style="color: #ffbc00;">HELPER</h3>
+                    <p style="margin: 10px 0; color: #888; font-size: 0.8rem;">Sunucuda düzeni sağla!</p>
+                    <span class="price" style="color: #fff; font-size: 1rem;">ŞART: 15+ YAŞ</span>
+                    <button class="card-btn" style="border-color: #ffbc00; color: #ffbc00;" onclick="applyFor('Helper')">BAŞVUR</button>
+                </div>
+                <div class="card" style="border-color: #00ff88;">
+                    <h3 style="color: #00ff88;">REHBER</h3>
+                    <p style="margin: 10px 0; color: #888; font-size: 0.8rem;">Oyunculara yardım et!</p>
+                    <span class="price" style="color: #fff; font-size: 1rem;">ŞART: AKTİFLİK</span>
+                    <button class="card-btn" style="border-color: #00ff88; color: #00ff88;" onclick="applyFor('Rehber')">BAŞVUR</button>
+                </div>
             </div>
         </div>
     </div>
 
+    <div class="bg-text-footer">TTNI NETWORK</div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-        // !!! BURAYI DÜZELT: Firebase Console'dan aldığın kendi bilgileri buraya yapıştır !!!
+        // BURAYI KENDİ PROJENLE GÜNCELLEMELİSİN (Hata almamak için)
         const firebaseConfig = {
-            apiKey: "BURAYA_KENDI_API_KEYINI_YAPISTIR",
-            authDomain: "ttni-network.firebaseapp.com",
+            apiKey: "AIzaSyAsExampleKey123", // Kendi Keyini buraya koy
             projectId: "ttni-network",
-            storageBucket: "ttni-network.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123456789:web:abcdef"
+            appId: "1:12345:web:abcde"
         };
 
-        // Başlatma
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        // Hata ayıklama ve durum takibi
+        // Kullanıcı Takibi
         onAuthStateChanged(auth, (user) => {
             const btn = document.getElementById('authBtn');
-            const msg = document.getElementById('statusMsg');
+            const status = document.getElementById('userStatus');
             if (user) {
                 btn.innerText = "Çıkış Yap";
-                msg.innerText = `Hoş geldin: ${user.email}`;
+                status.innerText = "Hoş geldin, " + user.email;
             } else {
-                btn.innerText = "Giriş Yap / Kayıt Ol";
-                msg.innerText = "Market ve Veritabanı Sistemi Aktif";
+                btn.innerText = "Giriş Yap";
+                status.innerText = "Sunucu Marketine Hoş Geldiniz";
             }
         });
 
-        // Global Satın Alma Fonksiyonu
-        window.buyItem = async (item, price) => {
+        // Sipariş Verme
+        window.order = async (item, price) => {
             if (!auth.currentUser) {
-                Swal.fire('Hata', 'Önce giriş yapmalısınız!', 'error');
+                Swal.fire({ icon: 'error', title: 'Hata', text: 'Sipariş için giriş yapmalısın!', background: '#0d1117', color: '#fff' });
                 return;
             }
-            try {
+
+            const { value: nick } = await Swal.fire({
+                title: 'Oyun Nickiniz',
+                input: 'text',
+                background: '#0d1117',
+                color: '#fff',
+                confirmButtonColor: '#00d2ff'
+            });
+
+            if (nick) {
                 await addDoc(collection(db, "siparisler"), {
-                    user: auth.currentUser.email,
-                    item: item,
-                    price: price,
-                    time: serverTimestamp()
+                    urun: item, fiyat: price, nick: nick, email: auth.currentUser.email, tarih: serverTimestamp()
                 });
-                Swal.fire('Başarılı', `${item} siparişi veritabanına kaydedildi!`, 'success');
-            } catch (e) {
-                Swal.fire('Hata', 'Veritabanı bağlantısı kurulamadı!', 'error');
+                Swal.fire('Başarılı', 'Siparişiniz iletildi!', 'success');
             }
         };
 
-        // Çıkış İşlemi
-        window.handleAuth = () => {
-            if (auth.currentUser) signOut(auth);
-            else Swal.fire('Bilgi', 'Giriş ekranı tasarımı için API Key gereklidir.', 'info');
+        // Başvuru Yapma
+        window.applyFor = async (rank) => {
+            const { value: formValues } = await Swal.fire({
+                title: rank + ' Başvurusu',
+                html: '<input id="swal-discord" class="swal2-input" placeholder="Discord Tag">' +
+                     '<input id="swal-yas" class="swal2-input" placeholder="Yaşınız">',
+                background: '#0d1117',
+                color: '#fff',
+                preConfirm: () => [document.getElementById('swal-discord').value, document.getElementById('swal-yas').value]
+            });
+
+            if (formValues && formValues[0]) {
+                await addDoc(collection(db, "basvurular"), {
+                    rutbe: rank, discord: formValues[0], yas: formValues[1], tarih: serverTimestamp()
+                });
+                Swal.fire('Teşekkürler', 'Başvurunuz incelenecektir.', 'success');
+            }
+        };
+
+        // Giriş Paneli
+        window.openAuth = async () => {
+            if (auth.currentUser) { signOut(auth); return; }
+            
+            const { value: formValues } = await Swal.fire({
+                title: 'TTNİ GİRİŞ',
+                html: '<input id="email" class="swal2-input" placeholder="E-posta">' +
+                     '<input type="password" id="pass" class="swal2-input" placeholder="Şifre">',
+                background: '#0d1117',
+                color: '#fff',
+                preConfirm: () => [document.getElementById('email').value, document.getElementById('pass').value]
+            });
+
+            if (formValues) {
+                signInWithEmailAndPassword(auth, formValues[0], formValues[1])
+                .catch(e => Swal.fire('Hata', 'Bilgiler yanlış veya API Key eksik!', 'error'));
+            }
         };
     </script>
 
     <script>
-        function showPage(id) {
+        function showPage(id, btn) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            btn.classList.add('active');
         }
     </script>
 </body>
